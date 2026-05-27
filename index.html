@@ -80,7 +80,7 @@
             transition: all 0.2s; white-space: nowrap;
         }
         .header-btn:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
-        .header-btn.active { background: var(--accent-blue); border-color: var(--accent-blue); color: #fff; }
+        .header-btn.lock-active { background: var(--accent-green); border-color: var(--accent-green); color: #fff; }
 
         .canvas-container {
             position: fixed; top: 48px; left: 0; right: 0; bottom: 0;
@@ -92,31 +92,58 @@
             position: absolute; cursor: grab; user-select: none;
             transition: transform 0.15s, box-shadow 0.2s; z-index: 10;
         }
-        .computer-node:hover { z-index: 20; transform: scale(1.1); }
-        .computer-node.dragging { cursor: grabbing; z-index: 100; transform: scale(1.2); }
+        .computer-node:hover { z-index: 20; transform: scale(1.05); }
+        .computer-node.dragging { cursor: grabbing; z-index: 100; transform: scale(1.1); }
         .computer-node.selected { z-index: 30; }
-        .computer-node.selected .node-card {
+        .computer-node.selected .monitor-screen {
             border-color: var(--accent-blue);
-            box-shadow: 0 0 15px rgba(88, 166, 255, 0.5);
+            box-shadow: 0 0 10px rgba(88, 166, 255, 0.6);
         }
+        .canvas-locked .computer-node { cursor: default; }
+        .canvas-locked .computer-node:hover { transform: none; }
 
-        .node-card {
-            background: var(--bg-secondary); border: 2px solid var(--border-color);
-            border-radius: 8px; padding: 6px 8px;
-            display: flex; flex-direction: column; align-items: center; gap: 2px;
-            min-width: 56px; transition: all 0.2s;
+        /* 显示器样式 */
+        .monitor {
+            width: 44px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        .computer-node:hover .node-card {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); border-color: var(--accent-blue);
+        .monitor-screen {
+            width: 44px;
+            height: 32px;
+            background: #000;
+            border: 2px solid #444;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0, 0, 0, 0.3);
         }
-        .node-icon { font-size: 20px; line-height: 1; }
-        .node-name {
-            font-size: 10px; font-weight: 600; color: var(--text-primary);
-            max-width: 50px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        .computer-node:hover .monitor-screen {
+            border-color: #58a6ff;
+            box-shadow: 0 0 15px rgba(88, 166, 255, 0.5), inset 0 0 10px rgba(0, 0, 0, 0.3);
         }
-        .node-id {
-            font-size: 9px; color: var(--text-secondary);
+        .monitor-id {
+            font-size: 18px;
+            font-weight: 800;
+            color: #00ff88;
+            text-shadow: 0 0 8px rgba(0, 255, 136, 0.8), 0 0 2px #00ff88;
             font-family: "JetBrains Mono", "Consolas", monospace;
+            letter-spacing: -1px;
+        }
+        .monitor-stand {
+            width: 8px;
+            height: 6px;
+            background: var(--border-color);
+            margin-top: 1px;
+        }
+        .monitor-base {
+            width: 20px;
+            height: 3px;
+            background: var(--border-color);
+            border-radius: 1px;
         }
 
         .side-panel {
@@ -367,7 +394,7 @@
             <div class="lock-title">网吧机位管理系统</div>
             <div class="lock-subtitle">请输入访问密码</div>
             <input type="password" class="lock-input" id="lockInput" placeholder="••••" maxlength="10">
-            <button class="lock-btn" id="lockBtn">确 定</button>
+            <button class="lock-btn" id="lockConfirmBtn">确 定</button>
             <div class="lock-error" id="lockError"></div>
         </div>
     </div>
@@ -380,9 +407,12 @@
             <div class="store-switcher" id="storeSwitcher"></div>
         </div>
         <div class="header-actions">
+            <button class="header-btn" id="lockBtn"><span>🔒</span><span>锁定</span></button>
             <button class="header-btn" id="addBtn"><span>➕</span><span>添加</span></button>
             <button class="header-btn" id="batchBtn"><span>☑️</span><span>批量</span></button>
             <button class="header-btn" id="exportBtn"><span>📊</span><span>导出</span></button>
+            <button class="header-btn" id="importBtn"><span>📥</span><span>导入</span></button>
+            <input type="file" id="importFile" style="display:none">
             <button class="header-btn" id="syncBtn"><span>☁️</span><span>上传云端</span></button>
             <button class="header-btn" id="resetBtn"><span>🔄</span><span>重置</span></button>
             <button class="header-btn" id="settingsBtn"><span>⚙️</span><span>背景</span></button>
@@ -459,7 +489,7 @@
         function showLock() {
             const overlay = $('lockOverlay');
             const input = $('lockInput');
-            const btn = $('lockBtn');
+            const btn = $('lockConfirmBtn');
 
             // 回车确认
             input.addEventListener('keydown', (e) => {
@@ -477,6 +507,7 @@
         let selectedNodes = new Set();
         let isSyncing = false;
         let hasDragged = false;  // 标记是否发生了拖动
+        let isLocked = true;  // 默认锁定位置
 
         const $ = id => document.getElementById(id);
         const canvas = $('canvas');
@@ -746,11 +777,11 @@
 
         function generateDefaultComputers() {
             const comps = [];
-            for (let r = 0; r < 2; r++) {
-                for (let c = 0; c < 5; c++) {
-                    const rl = String.fromCharCode(65 + r);
-                    comps.push({ id: `${rl}${c+1}`, name: `${rl}${c+1}`, x: 80 + c * 70, y: 80 + r * 80, icon: '🖥️', hardware: { cpu:'', gpu:'', ram:'', motherboard:'', power:'', nic:'', cooler:'', monitor:'', mouse:'', keyboard:'', headset:'' } });
-                }
+            for (let i = 1; i <= 50; i++) {
+                const id = String(i).padStart(3, '0');
+                const col = (i - 1) % 10;
+                const row = Math.floor((i - 1) / 10);
+                comps.push({ id, name: id, x: 80 + col * 70, y: 80 + row * 80, icon: '🖥️', hardware: { cpu:'', gpu:'', ram:'', motherboard:'', power:'', nic:'', cooler:'', monitor:'', mouse:'', keyboard:'', headset:'' } });
             }
             return comps;
         }
@@ -916,7 +947,16 @@
             if (selectedNodes.has(comp.id)) node.classList.add('selected');
             node.dataset.id = comp.id;
             node.style.left = comp.x + 'px'; node.style.top = comp.y + 'px';
-            node.innerHTML = `<div class="node-card"><span class="node-icon">${comp.icon}</span><span class="node-name" title="${comp.name}">${comp.name}</span><span class="node-id">${comp.id}</span></div>`;
+            // 显示器样式，只显示机器号
+            node.innerHTML = `
+                <div class="monitor">
+                    <div class="monitor-screen">
+                        <span class="monitor-id">${comp.id}</span>
+                    </div>
+                    <div class="monitor-stand"></div>
+                    <div class="monitor-base"></div>
+                </div>
+            `;
             node.addEventListener('mousedown', onDragStart);
             node.addEventListener('touchstart', onDragStart, { passive: false });
             node.addEventListener('click', () => {
@@ -929,7 +969,7 @@
 
         // ==================== 拖拽 ====================
         function onDragStart(e) {
-            if (isBatchMode) return;
+            if (isBatchMode || isLocked) return;
             e.preventDefault();
             hasDragged = false;  // 重置拖动标志
             const node = e.currentTarget; draggedNode = node; node.classList.add('dragging');
@@ -1139,6 +1179,125 @@
             showToast(`已导出 ${store.computers.length} 台机位信息`);
         }
 
+        // ==================== 导入 ====================
+        function importFromCSV() {
+            $('importFile').click();
+        }
+
+        async function handleImportFile(file) {
+            if (!file) return;
+            const store = activeStore();
+            if (!store) { showToast('请先选择一个门店'); return; }
+
+            const text = await file.text();
+            // 去除 BOM 头
+            const cleanText = text.replace(/^\uFEFF/, '');
+            const lines = cleanText.trim().split('\n');
+            if (lines.length < 2) { showToast('文件格式错误'); return; }
+
+            // 解析表头
+            const headers = parseCSVLine(lines[0]);
+            const expectedHeaders = ['编号', '名称', 'CPU', '显卡', '内存', '主板', '电源', '散热器', '网卡', '显示器', '鼠标', '键盘', '耳机'];
+            
+            // 检查表头是否匹配
+            const isValid = expectedHeaders.every((h, i) => headers[i] === h);
+            if (!isValid) {
+                showToast('表格格式不匹配，请使用导出的格式');
+                return;
+            }
+
+            // 解析数据行
+            const importedComputers = [];
+            const usedPositions = new Set();
+            
+            for (let i = 1; i < lines.length; i++) {
+                const values = parseCSVLine(lines[i]);
+                if (values.length < 2) continue;
+                
+                const id = values[0];
+                const name = values[1];
+                if (!id) continue;
+
+                // 计算不重叠的位置
+                let x = 80, y = 80;
+                let found = false;
+                for (let row = 0; row < 20 && !found; row++) {
+                    for (let col = 0; col < 10 && !found; col++) {
+                        const posX = 80 + col * 50;
+                        const posY = 80 + row * 50;
+                        const posKey = `${posX},${posY}`;
+                        if (!usedPositions.has(posKey)) {
+                            x = posX;
+                            y = posY;
+                            usedPositions.add(posKey);
+                            found = true;
+                        }
+                    }
+                }
+
+                importedComputers.push({
+                    id,
+                    name: name || id,
+                    x,
+                    y,
+                    icon: '🖥️',
+                    hardware: {
+                        cpu: values[2] || '',
+                        gpu: values[3] || '',
+                        ram: values[4] || '',
+                        motherboard: values[5] || '',
+                        power: values[6] || '',
+                        cooler: values[7] || '',
+                        nic: values[8] || '',
+                        monitor: values[9] || '',
+                        mouse: values[10] || '',
+                        keyboard: values[11] || '',
+                        headset: values[12] || ''
+                    }
+                });
+            }
+
+            if (importedComputers.length === 0) {
+                showToast('没有导入任何数据');
+                return;
+            }
+
+            // 确认导入
+            const ok = await showConfirmModal(`确定导入 ${importedComputers.length} 台机器？这将覆盖当前门店的所有机器数据。`);
+            if (!ok) return;
+
+            // 更新数据
+            store.computers = importedComputers;
+            saveData();
+            renderCanvas();
+            showToast(`成功导入 ${importedComputers.length} 台机器`);
+        }
+
+        function parseCSVLine(line) {
+            const values = [];
+            let current = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') {
+                    if (inQuotes && line[i + 1] === '"') {
+                        current += '"';
+                        i++;
+                    } else {
+                        inQuotes = !inQuotes;
+                    }
+                } else if (char === ',' && !inQuotes) {
+                    values.push(current.trim());
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            values.push(current.trim());
+            return values;
+        }
+
         // ==================== 背景 ====================
         function applyBackground() {
             const bg = storeSettings().background;
@@ -1193,17 +1352,32 @@
         async function addComputer() {
             const store = activeStore();
             if (!store) { showToast('请先选择一个门店'); return; }
-            const id = await showInputModal('输入机位编号', '如：C1', 'C1');
+            
+            // 自动获取下一个编号
+            let nextNum = 1;
+            const existingNums = store.computers.map(c => {
+                const match = c.id.match(/^(\d+)$/);
+                return match ? parseInt(match[1]) : 0;
+            }).filter(n => n > 0);
+            
+            if (existingNums.length > 0) {
+                nextNum = Math.max(...existingNums) + 1;
+            }
+            
+            const defaultId = String(nextNum).padStart(3, '0');
+            const id = await showInputModal('输入机位编号', `如：${defaultId}`, defaultId);
             if (!id) return;
             if (store.computers.find(c => c.id === id)) { showToast('该编号已存在'); return; }
             const nc = { id, name: id, x: 100 + Math.random() * 200, y: 100 + Math.random() * 200, icon: '🖥️', hardware: { cpu:'', gpu:'', ram:'', motherboard:'', power:'', nic:'', cooler:'', monitor:'', mouse:'', keyboard:'', headset:'' } };
-            store.computers.push(nc); saveData(); renderCanvas(); showToast(`已添加机位 ${id}`); openEditPanel(nc);
+            store.computers.push(nc); saveData(); renderCanvas(); showToast(`已添加机位 ${id}`);
         }
 
         // ==================== 重置 ====================
         async function resetLayout() {
-            const ok = await showConfirmModal('确定重置当前门店的所有数据？');
-            if (!ok) return;
+            const ok1 = await showConfirmModal('⚠️ 确定重置当前门店的所有数据？此操作不可撤销！');
+            if (!ok1) return;
+            const ok2 = await showConfirmModal('🚨 再次确认：所有机位信息、硬件配置、背景设置将全部恢复默认，确定继续？');
+            if (!ok2) return;
             const store = activeStore(); if (!store) return;
             store.computers = generateDefaultComputers();
             store.settings = { background: { type: 'color', value: '#0d1117' } };
@@ -1246,9 +1420,29 @@
         function bindEvents() {
             $('settingsBtn').addEventListener('click', openBackgroundPanel);
             $('addBtn').addEventListener('click', addComputer);
+            $('lockBtn').addEventListener('click', () => {
+                isLocked = !isLocked;
+                const btn = $('lockBtn');
+                if (isLocked) {
+                    btn.innerHTML = '<span>🔒</span><span>锁定</span>';
+                    btn.classList.remove('lock-active');
+                    canvas.classList.add('canvas-locked');
+                    showToast('位置已锁定');
+                } else {
+                    btn.innerHTML = '<span>🔓</span><span>解锁</span>';
+                    btn.classList.add('lock-active');
+                    canvas.classList.remove('canvas-locked');
+                    showToast('位置已解锁，可拖动机器');
+                }
+            });
             $('resetBtn').addEventListener('click', resetLayout);
             $('batchBtn').addEventListener('click', toggleBatchMode);
             $('exportBtn').addEventListener('click', exportToCSV);
+            $('importBtn').addEventListener('click', importFromCSV);
+            $('importFile').addEventListener('change', (e) => {
+                handleImportFile(e.target.files[0]);
+                e.target.value = ''; // 清空以便重复选择同一文件
+            });
             $('syncBtn').addEventListener('click', async () => {
                 await syncFromCloud();
                 renderStoreSwitcher();
@@ -1269,6 +1463,8 @@
             applyBackground();
             updateHeaderTitle();
             bindEvents();
+            // 默认锁定状态
+            canvas.classList.add('canvas-locked');
         }
         // 页面加载时显示密码锁，输入正确密码后初始化应用
         showLock();
