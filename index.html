@@ -755,9 +755,24 @@
             return comps;
         }
 
+        // 防抖动的自动同步
+        let syncTimeout = null;
         function saveData() {
             saveDataLocal();
-            showToast('已保存本地（点击☁️同步到云端）');
+            // 延迟自动同步到云端，避免频繁操作
+            if (syncTimeout) clearTimeout(syncTimeout);
+            syncTimeout = setTimeout(() => {
+                autoSyncToCloud();
+            }, 2000); // 2秒后自动同步
+        }
+        
+        async function autoSyncToCloud() {
+            if (isSyncing) return;
+            try {
+                await syncToCloud();
+            } catch (e) {
+                console.error('自动同步失败:', e);
+            }
         }
 
         // ==================== 门店 ====================
