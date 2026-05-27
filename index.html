@@ -508,6 +508,7 @@
         let isSyncing = false;
         let hasDragged = false;  // 标记是否发生了拖动
         let isLocked = true;  // 默认锁定位置
+        let hasSyncedFromCloud = false;  // 标记是否成功从云端同步过
 
         const $ = id => document.getElementById(id);
         const canvas = $('canvas');
@@ -580,6 +581,11 @@
 
         async function syncToCloud() {
             if (isSyncing) return;
+            // 检查是否已成功从云端同步过
+            if (!hasSyncedFromCloud) {
+                showToast('请先等待云端数据同步完成后再上传');
+                return false;
+            }
             isSyncing = true;
             try {
                 // 上传前记录时间戳
@@ -618,6 +624,9 @@
                 showToast('云端数据获取失败，请检查网络后刷新页面');
                 // 显示错误状态，不加载本地数据
                 appData = { stores: [], activeStoreId: null };
+                hasSyncedFromCloud = false;
+            } else {
+                hasSyncedFromCloud = true;
             }
         }
 
