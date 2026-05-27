@@ -310,6 +310,44 @@
         .input-modal-btn.confirm { background: var(--accent-blue); color: #fff; }
         .input-modal-btn.confirm:hover { background: #1f6feb; }
 
+        /* ===== Password Lock ===== */
+        .lock-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--bg-primary); z-index: 9999;
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.5s;
+        }
+        .lock-overlay.hidden { opacity: 0; pointer-events: none; }
+
+        .lock-box {
+            background: var(--bg-secondary); border: 1px solid var(--border-color);
+            border-radius: 16px; padding: 40px; text-align: center;
+            max-width: 320px; width: 90%;
+        }
+        .lock-icon { font-size: 48px; margin-bottom: 20px; }
+        .lock-title { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+        .lock-subtitle { font-size: 13px; color: var(--text-secondary); margin-bottom: 24px; }
+        .lock-input {
+            width: 100%; padding: 14px 16px; background: var(--bg-primary);
+            border: 2px solid var(--border-color); border-radius: 10px;
+            color: var(--text-primary); font-size: 18px; text-align: center;
+            letter-spacing: 8px; margin-bottom: 16px; transition: border-color 0.2s;
+        }
+        .lock-input:focus { outline: none; border-color: var(--accent-blue); }
+        .lock-input.error { border-color: var(--accent-red); animation: shake 0.5s; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        .lock-btn {
+            width: 100%; padding: 12px; background: var(--accent-blue);
+            border: none; border-radius: 8px; color: #fff; font-size: 14px;
+            cursor: pointer; transition: background 0.2s;
+        }
+        .lock-btn:hover { background: #1f6feb; }
+        .lock-error { color: var(--accent-red); font-size: 12px; margin-top: 12px; height: 18px; }
+
         @media (max-width: 768px) {
             .header { padding: 0 10px; height: 44px; }
             .logo-title { display: none; }
@@ -322,6 +360,17 @@
     </style>
 </head>
 <body>
+    <!-- 密码锁界面 -->
+    <div class="lock-overlay" id="lockOverlay">
+        <div class="lock-box">
+            <div class="lock-icon">🔐</div>
+            <div class="lock-title">网吧机位管理系统</div>
+            <div class="lock-subtitle">请输入访问密码</div>
+            <input type="password" class="lock-input" id="lockInput" placeholder="••••" maxlength="10">
+            <button class="lock-btn" id="lockBtn">确 定</button>
+            <div class="lock-error" id="lockError"></div>
+        </div>
+    </div>
     <header class="header">
         <div class="header-left">
             <div class="logo-section">
@@ -334,7 +383,7 @@
             <button class="header-btn" id="addBtn"><span>➕</span><span>添加</span></button>
             <button class="header-btn" id="batchBtn"><span>☑️</span><span>批量</span></button>
             <button class="header-btn" id="exportBtn"><span>📊</span><span>导出</span></button>
-            <button class="header-btn" id="syncBtn"><span>☁️</span><span>同步</span></button>
+            <button class="header-btn" id="syncBtn"><span>☁️</span><span>上传云端</span></button>
             <button class="header-btn" id="resetBtn"><span>🔄</span><span>重置</span></button>
             <button class="header-btn" id="settingsBtn"><span>⚙️</span><span>背景</span></button>
         </div>
@@ -383,6 +432,43 @@
         const JSONBIN_BIN_URL = 'https://api.jsonbin.io/v3/b/6a16b8b6f47d5c455c3c53f5';
         const JSONBIN_MASTER_KEY = '$2a$10$M4C51X.vz0WOTMBRSU5XOOdrlzSYTq4qbzbPTCUAJIMRUG5BdP0Ai';
 
+        // ==================== 访问密码 ====================
+        const ACCESS_PASSWORD = '5418';
+        let isUnlocked = false;
+
+        function checkPassword() {
+            const input = $('lockInput');
+            const error = $('lockError');
+            const overlay = $('lockOverlay');
+
+            if (input.value === ACCESS_PASSWORD) {
+                isUnlocked = true;
+                overlay.classList.add('hidden');
+                setTimeout(() => overlay.style.display = 'none', 500);
+                input.value = '';
+                error.textContent = '';
+                init(); // 密码正确后初始化应用
+            } else {
+                input.classList.add('error');
+                error.textContent = '密码错误，请重新输入';
+                setTimeout(() => input.classList.remove('error'), 500);
+            }
+        }
+
+        // 页面加载时显示密码锁
+        function showLock() {
+            const overlay = $('lockOverlay');
+            const input = $('lockInput');
+            const btn = $('lockBtn');
+
+            // 回车确认
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') checkPassword();
+            });
+            // 点击确认
+            btn.addEventListener('click', checkPassword);
+        }
+
         let appData = { stores: [], activeStoreId: null };
         let draggedNode = null;
         let dragOffset = { x: 0, y: 0 };
@@ -409,7 +495,7 @@
         // ==================== JSONBin 云端同步 ====================
         async function syncFromCloud() {
             try {
-                showToast('正在从云端同步数据...');
+                showToast('正在从云端下载...');
                 const response = await fetch(`${JSONBIN_BIN_URL}/latest`, {
                     method: 'GET',
                     headers: {
@@ -422,7 +508,9 @@
                     if (result.record && result.record.stores) {
                         appData = result.record;
                         saveDataLocal(); // 同时保存到本地作为备份
-                        showToast('云端数据同步成功！');
+                        applyBackground(); // 应用云端的背景设置
+                        renderCanvas(); // 重新渲染画布
+                        showToast('云端数据下载成功！');
                         return true;
                     }
                 }
@@ -446,7 +534,7 @@
                     body: JSON.stringify(appData)
                 });
                 if (response.ok) {
-                    showToast('已同步到云端');
+                    showToast('已上传到云端');
                     return true;
                 } else {
                     showToast('云端同步失败');
@@ -514,9 +602,9 @@
             return comps;
         }
 
-        async function saveData() {
+        function saveData() {
             saveDataLocal();
-            await syncToCloud();
+            showToast('已保存本地（点击☁️同步到云端）');
         }
 
         // ==================== 门店 ====================
@@ -1013,7 +1101,8 @@
             updateHeaderTitle();
             bindEvents();
         }
-        init();
+        // 页面加载时显示密码锁，输入正确密码后初始化应用
+        showLock();
     </script>
 </body>
 </html>
