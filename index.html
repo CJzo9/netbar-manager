@@ -504,19 +504,44 @@
                     }
                 });
                 if (response.ok) {
-                    const result = await response.json();
-                    if (result.record && result.record.stores) {
-                        appData = result.record;
-                        saveDataLocal(); // 同时保存到本地作为备份
-                        applyBackground(); // 应用云端的背景设置
-                        renderCanvas(); // 重新渲染画布
+                    const text = await response.text();
+                    let data = null;
+                    try {
+                        data = JSON.parse(text);
+                    } catch(e) {
+                        console.error('JSON解析失败:', e);
+                        showToast('云端数据格式错误');
+                        return false;
+                    }
+
+                    // JSONBin 响应格式可能是直接返回数据，也可能包裹在 record 中
+                    let cloudData = null;
+                    if (data && data.stores) {
+                        cloudData = data; // 直接返回数据
+                    } else if (data && data.record && data.record.stores) {
+                        cloudData = data.record; // 包裹在 record 中
+                    }
+
+                    if (cloudData && cloudData.stores) {
+                        appData = cloudData;
+                        saveDataLocal();
+                        applyBackground();
+                        renderCanvas();
+                        renderStoreSwitcher();
+                        updateHeaderTitle();
                         showToast('云端数据下载成功！');
                         return true;
+                    } else {
+                        showToast('云端暂无数据');
+                        return false;
                     }
+                } else {
+                    showToast('云端请求失败: ' + response.status);
+                    return false;
                 }
-                return false;
             } catch (e) {
                 console.error('云端同步失败:', e);
+                showToast('云端同步失败: ' + e.message);
                 return false;
             }
         }
@@ -537,12 +562,14 @@
                     showToast('已上传到云端');
                     return true;
                 } else {
-                    showToast('云端同步失败');
+                    const errText = await response.text();
+                    showToast('上传失败: ' + response.status);
+                    console.error('上传失败:', response.status, errText);
                     return false;
                 }
             } catch (e) {
                 console.error('同步到云端失败:', e);
-                showToast('云端同步失败');
+                showToast('上传失败: ' + e.message);
                 return false;
             } finally {
                 isSyncing = false;
