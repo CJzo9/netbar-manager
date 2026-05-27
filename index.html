@@ -28,7 +28,6 @@
             overflow: hidden;
         }
 
-        /* ===== Header ===== */
         .header {
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border-color);
@@ -42,639 +41,275 @@
             height: 48px;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .header-left { display: flex; align-items: center; gap: 12px; }
 
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-shrink: 0;
-        }
-
+        .logo-section { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
         .logo-icon { font-size: 18px; }
+        .logo-title { font-size: 13px; font-weight: 600; white-space: nowrap; }
 
-        .logo-title {
-            font-size: 13px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        /* Store Switcher */
         .store-switcher {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 2px;
-            height: 32px;
+            display: flex; align-items: center; gap: 4px;
+            background: var(--bg-primary); border: 1px solid var(--border-color);
+            border-radius: 6px; padding: 2px; height: 32px;
         }
 
         .store-tab {
-            padding: 4px 10px;
-            border: none;
-            background: transparent;
-            color: var(--text-secondary);
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            white-space: nowrap;
-            transition: all 0.2s;
-            max-width: 100px;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            padding: 4px 10px; border: none; background: transparent;
+            color: var(--text-secondary); border-radius: 4px; cursor: pointer;
+            font-size: 12px; white-space: nowrap; transition: all 0.2s;
+            max-width: 100px; overflow: hidden; text-overflow: ellipsis;
         }
+        .store-tab:hover { color: var(--text-primary); background: var(--bg-tertiary); }
+        .store-tab.active { background: var(--accent-blue); color: #fff; font-weight: 500; }
 
-        .store-tab:hover {
-            color: var(--text-primary);
-            background: var(--bg-tertiary);
+        .store-tab-add, .store-tab-manage {
+            padding: 4px 8px; border: none; background: transparent;
+            color: var(--text-secondary); border-radius: 4px; cursor: pointer;
+            font-size: 14px; transition: all 0.2s; flex-shrink: 0;
         }
+        .store-tab-add:hover { color: var(--accent-blue); background: var(--bg-tertiary); }
+        .store-tab-manage:hover { color: var(--accent-orange); background: var(--bg-tertiary); }
 
-        .store-tab.active {
-            background: var(--accent-blue);
-            color: #fff;
-            font-weight: 500;
-        }
-
-        .store-tab-add {
-            padding: 4px 8px;
-            border: none;
-            background: transparent;
-            color: var(--text-secondary);
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.2s;
-            flex-shrink: 0;
-        }
-
-        .store-tab-add:hover {
-            color: var(--accent-blue);
-            background: var(--bg-tertiary);
-        }
-
-        .store-tab-manage {
-            padding: 4px 8px;
-            border: none;
-            background: transparent;
-            color: var(--text-secondary);
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: all 0.2s;
-            flex-shrink: 0;
-        }
-
-        .store-tab-manage:hover {
-            color: var(--accent-orange);
-            background: var(--bg-tertiary);
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 6px;
-        }
+        .header-actions { display: flex; gap: 6px; }
 
         .header-btn {
-            padding: 6px 12px;
-            border: 1px solid var(--border-color);
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            transition: all 0.2s;
-            white-space: nowrap;
+            padding: 6px 12px; border: 1px solid var(--border-color);
+            background: var(--bg-primary); color: var(--text-primary);
+            border-radius: 5px; cursor: pointer; font-size: 12px;
+            display: flex; align-items: center; gap: 4px;
+            transition: all 0.2s; white-space: nowrap;
         }
+        .header-btn:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+        .header-btn.active { background: var(--accent-blue); border-color: var(--accent-blue); color: #fff; }
 
-        .header-btn:hover {
-            border-color: var(--accent-blue);
-            color: var(--accent-blue);
-        }
-
-        .header-btn.active {
-            background: var(--accent-blue);
-            border-color: var(--accent-blue);
-            color: #fff;
-        }
-
-        /* ===== Canvas ===== */
         .canvas-container {
-            position: fixed;
-            top: 48px; left: 0; right: 0; bottom: 0;
-            overflow: hidden;
-            transition: background 0.3s;
+            position: fixed; top: 48px; left: 0; right: 0; bottom: 0;
+            overflow: hidden; transition: background 0.3s;
         }
-
         #canvas { width: 100%; height: 100%; position: relative; }
 
-        /* ===== Computer Node ===== */
         .computer-node {
-            position: absolute;
-            cursor: grab;
-            user-select: none;
-            transition: transform 0.15s, box-shadow 0.2s;
-            z-index: 10;
+            position: absolute; cursor: grab; user-select: none;
+            transition: transform 0.15s, box-shadow 0.2s; z-index: 10;
         }
-
         .computer-node:hover { z-index: 20; transform: scale(1.1); }
-
-        .computer-node.dragging {
-            cursor: grabbing;
-            z-index: 100;
-            transform: scale(1.2);
-        }
-
+        .computer-node.dragging { cursor: grabbing; z-index: 100; transform: scale(1.2); }
         .computer-node.selected { z-index: 30; }
-
         .computer-node.selected .node-card {
             border-color: var(--accent-blue);
             box-shadow: 0 0 15px rgba(88, 166, 255, 0.5);
         }
 
         .node-card {
-            background: var(--bg-secondary);
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            padding: 6px 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2px;
-            min-width: 56px;
-            transition: all 0.2s;
+            background: var(--bg-secondary); border: 2px solid var(--border-color);
+            border-radius: 8px; padding: 6px 8px;
+            display: flex; flex-direction: column; align-items: center; gap: 2px;
+            min-width: 56px; transition: all 0.2s;
         }
-
         .computer-node:hover .node-card {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-            border-color: var(--accent-blue);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); border-color: var(--accent-blue);
         }
-
         .node-icon { font-size: 20px; line-height: 1; }
-
         .node-name {
-            font-size: 10px;
-            font-weight: 600;
-            color: var(--text-primary);
-            max-width: 50px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            font-size: 10px; font-weight: 600; color: var(--text-primary);
+            max-width: 50px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
-
         .node-id {
-            font-size: 9px;
-            color: var(--text-secondary);
+            font-size: 9px; color: var(--text-secondary);
             font-family: "JetBrains Mono", "Consolas", monospace;
         }
 
-        /* ===== Side Panel ===== */
         .side-panel {
-            position: fixed;
-            top: 48px;
-            right: -420px;
-            width: 420px;
-            height: calc(100vh - 48px);
-            background: var(--bg-secondary);
-            border-left: 1px solid var(--border-color);
-            z-index: 200;
-            transition: right 0.3s ease;
-            overflow-y: auto;
+            position: fixed; top: 48px; right: -420px; width: 420px;
+            height: calc(100vh - 48px); background: var(--bg-secondary);
+            border-left: 1px solid var(--border-color); z-index: 200;
+            transition: right 0.3s ease; overflow-y: auto;
         }
-
         .side-panel.open { right: 0; }
 
         .panel-header {
-            padding: 14px 18px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            padding: 14px 18px; border-bottom: 1px solid var(--border-color);
+            display: flex; align-items: center; justify-content: space-between;
         }
-
         .panel-title { font-size: 15px; font-weight: 600; }
-
         .panel-close {
-            width: 26px; height: 26px;
-            border: none;
-            background: var(--bg-primary);
-            color: var(--text-secondary);
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
+            width: 26px; height: 26px; border: none; background: var(--bg-primary);
+            color: var(--text-secondary); border-radius: 5px; cursor: pointer; font-size: 14px;
         }
-
         .panel-close:hover { background: var(--accent-red); color: #fff; }
-
         .panel-content { padding: 16px; }
 
-        /* ===== Form ===== */
         .form-group { margin-bottom: 12px; }
-
-        .form-label {
-            display: block;
-            font-size: 11px;
-            color: var(--text-secondary);
-            margin-bottom: 5px;
-        }
-
+        .form-label { display: block; font-size: 11px; color: var(--text-secondary); margin-bottom: 5px; }
         .form-input, .form-select {
-            width: 100%;
-            padding: 8px 10px;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            color: var(--text-primary);
-            font-size: 12px;
-            transition: all 0.2s;
+            width: 100%; padding: 8px 10px; background: var(--bg-primary);
+            border: 1px solid var(--border-color); border-radius: 5px;
+            color: var(--text-primary); font-size: 12px; transition: all 0.2s;
         }
-
-        .form-input:focus, .form-select:focus {
-            outline: none;
-            border-color: var(--accent-blue);
-        }
-
+        .form-input:focus, .form-select:focus { outline: none; border-color: var(--accent-blue); }
         .form-input::placeholder { color: var(--text-secondary); }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
+        .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 
         .hardware-section {
-            background: var(--bg-primary);
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 12px;
+            background: var(--bg-primary); border-radius: 8px;
+            padding: 12px; margin-bottom: 12px;
         }
-
         .hardware-title {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--accent-blue);
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            font-size: 12px; font-weight: 600; color: var(--accent-blue);
+            margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
         }
 
-        .icon-picker {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 5px;
-            margin-bottom: 10px;
-        }
-
+        .icon-picker { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; margin-bottom: 10px; }
         .icon-option {
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            background: var(--bg-secondary);
-            border: 2px solid var(--border-color);
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.2s;
+            aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+            font-size: 16px; background: var(--bg-secondary); border: 2px solid var(--border-color);
+            border-radius: 5px; cursor: pointer; transition: all 0.2s;
         }
-
         .icon-option:hover { border-color: var(--accent-blue); }
+        .icon-option.active { border-color: var(--accent-blue); background: rgba(88, 166, 255, 0.2); }
 
-        .icon-option.active {
-            border-color: var(--accent-blue);
-            background: rgba(88, 166, 255, 0.2);
-        }
-
-        /* ===== Buttons ===== */
         .btn-primary {
-            width: 100%; padding: 10px;
-            border: none; background: var(--accent-blue); color: #fff;
-            border-radius: 5px; cursor: pointer;
+            width: 100%; padding: 10px; border: none; background: var(--accent-blue);
+            color: #fff; border-radius: 5px; cursor: pointer;
             font-size: 13px; font-weight: 500; transition: all 0.2s;
         }
-
         .btn-primary:hover { background: #1f6feb; }
-
         .btn-green {
-            width: 100%; padding: 10px;
-            border: none; background: var(--accent-green); color: #fff;
-            border-radius: 5px; cursor: pointer;
+            width: 100%; padding: 10px; border: none; background: var(--accent-green);
+            color: #fff; border-radius: 5px; cursor: pointer;
             font-size: 13px; font-weight: 500; transition: all 0.2s;
         }
-
         .btn-green:hover { background: #2ea043; }
-
         .btn-secondary {
-            width: 100%; padding: 8px;
-            border: 1px solid var(--border-color);
+            width: 100%; padding: 8px; border: 1px solid var(--border-color);
             background: var(--bg-secondary); color: var(--text-primary);
-            border-radius: 5px; cursor: pointer;
-            font-size: 12px; transition: all 0.2s;
+            border-radius: 5px; cursor: pointer; font-size: 12px; transition: all 0.2s;
         }
-
         .btn-secondary:hover { border-color: var(--accent-blue); }
-
         .btn-danger {
-            width: 100%; padding: 8px;
-            border: none; background: var(--accent-red); color: #fff;
-            border-radius: 5px; cursor: pointer;
-            font-size: 12px; transition: all 0.2s;
+            width: 100%; padding: 8px; border: none; background: var(--accent-red);
+            color: #fff; border-radius: 5px; cursor: pointer; font-size: 12px; transition: all 0.2s;
         }
-
         .btn-danger:hover { background: #da3633; }
 
-        .btn-orange {
-            width: 100%; padding: 8px;
-            border: none; background: var(--accent-orange); color: #fff;
-            border-radius: 5px; cursor: pointer;
+        .store-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+        .store-item {
+            display: flex; align-items: center; gap: 10px; padding: 12px;
+            background: var(--bg-primary); border: 2px solid var(--border-color);
+            border-radius: 8px; cursor: pointer; transition: all 0.2s;
+        }
+        .store-item:hover { border-color: var(--accent-blue); }
+        .store-item.active { border-color: var(--accent-blue); background: rgba(88, 166, 255, 0.08); }
+        .store-item-icon {
+            width: 36px; height: 36px; background: var(--bg-tertiary);
+            border-radius: 8px; display: flex; align-items: center;
+            justify-content: center; font-size: 18px; flex-shrink: 0;
+        }
+        .store-item-info { flex: 1; min-width: 0; }
+        .store-item-name {
+            font-size: 13px; font-weight: 600;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .store-item-addr {
+            font-size: 11px; color: var(--text-secondary);
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .store-item-count { font-size: 11px; color: var(--text-secondary); flex-shrink: 0; }
+        .store-item-actions { display: flex; gap: 4px; flex-shrink: 0; }
+        .store-action-btn {
+            width: 28px; height: 28px; border: none; background: var(--bg-tertiary);
+            color: var(--text-secondary); border-radius: 4px; cursor: pointer;
             font-size: 12px; transition: all 0.2s;
         }
-
-        .btn-orange:hover { background: #d68029; }
-
-        /* ===== Store Management ===== */
-        .store-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
-
-        .store-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px;
-            background: var(--bg-primary);
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .store-item:hover { border-color: var(--accent-blue); }
-
-        .store-item.active {
-            border-color: var(--accent-blue);
-            background: rgba(88, 166, 255, 0.08);
-        }
-
-        .store-item-icon {
-            width: 36px; height: 36px;
-            background: var(--bg-tertiary);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-
-        .store-item-info { flex: 1; min-width: 0; }
-
-        .store-item-name {
-            font-size: 13px;
-            font-weight: 600;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .store-item-addr {
-            font-size: 11px;
-            color: var(--text-secondary);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .store-item-count {
-            font-size: 11px;
-            color: var(--text-secondary);
-            flex-shrink: 0;
-        }
-
-        .store-item-actions {
-            display: flex;
-            gap: 4px;
-            flex-shrink: 0;
-        }
-
-        .store-action-btn {
-            width: 28px; height: 28px;
-            border: none;
-            background: var(--bg-tertiary);
-            color: var(--text-secondary);
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: all 0.2s;
-        }
-
         .store-action-btn:hover { color: var(--accent-blue); background: var(--border-color); }
         .store-action-btn.delete:hover { color: var(--accent-red); }
 
-        /* ===== Batch ===== */
         .batch-info {
-            background: rgba(88, 166, 255, 0.1);
-            border: 1px solid var(--accent-blue);
-            border-radius: 6px;
-            padding: 10px;
-            margin-bottom: 12px;
-            font-size: 12px;
+            background: rgba(88, 166, 255, 0.1); border: 1px solid var(--accent-blue);
+            border-radius: 6px; padding: 10px; margin-bottom: 12px; font-size: 12px;
         }
-
         .batch-count { color: var(--accent-blue); font-weight: 600; }
 
-        /* ===== Background ===== */
-        .bg-presets {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-            margin-bottom: 12px;
-        }
-
+        .bg-presets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
         .bg-preset {
-            aspect-ratio: 16/9;
-            border-radius: 6px;
-            border: 2px solid var(--border-color);
-            cursor: pointer;
-            transition: all 0.2s;
+            aspect-ratio: 16/9; border-radius: 6px; border: 2px solid var(--border-color);
+            cursor: pointer; transition: all 0.2s;
         }
-
         .bg-preset:hover { border-color: var(--accent-blue); transform: scale(1.05); }
+        .bg-preset.active { border-color: var(--accent-blue); box-shadow: 0 0 8px rgba(88, 166, 255, 0.3); }
 
-        .bg-preset.active {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 8px rgba(88, 166, 255, 0.3);
-        }
-
-        .color-swatches {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 6px;
-            margin-bottom: 12px;
-        }
-
+        .color-swatches { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 12px; }
         .color-swatch {
-            aspect-ratio: 1;
-            border-radius: 6px;
-            border: 2px solid transparent;
-            cursor: pointer;
-            transition: all 0.2s;
+            aspect-ratio: 1; border-radius: 6px; border: 2px solid transparent;
+            cursor: pointer; transition: all 0.2s;
         }
-
         .color-swatch:hover { transform: scale(1.1); }
-
-        .color-swatch.active {
-            border-color: #fff;
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
-        }
+        .color-swatch.active { border-color: #fff; box-shadow: 0 0 8px rgba(255, 255, 255, 0.3); }
 
         .upload-btn {
-            width: 100%; padding: 10px;
-            border: 2px dashed var(--border-color);
-            background: transparent;
-            color: var(--text-secondary);
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: all 0.2s;
+            width: 100%; padding: 10px; border: 2px dashed var(--border-color);
+            background: transparent; color: var(--text-secondary);
+            border-radius: 6px; cursor: pointer; font-size: 12px; transition: all 0.2s;
         }
-
         .upload-btn:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
-
         #bgImageInput { display: none; }
 
-        /* ===== Overlay & Hints ===== */
         .panel-overlay {
-            position: fixed;
-            top: 48px; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 150;
-            opacity: 0; visibility: hidden;
-            transition: all 0.3s;
+            position: fixed; top: 48px; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.5); z-index: 150;
+            opacity: 0; visibility: hidden; transition: all 0.3s;
         }
-
         .panel-overlay.open { opacity: 1; visibility: visible; }
 
         .selection-mode-hint {
-            position: fixed;
-            top: 60px; left: 50%;
-            transform: translateX(-50%);
-            background: var(--accent-blue);
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            z-index: 90;
-            display: none;
+            position: fixed; top: 60px; left: 50%; transform: translateX(-50%);
+            background: var(--accent-blue); color: #fff; padding: 8px 16px;
+            border-radius: 20px; font-size: 12px; z-index: 90; display: none;
         }
-
         .selection-mode-hint.show { display: block; }
 
         .toast {
-            position: fixed;
-            bottom: 16px; left: 50%;
+            position: fixed; bottom: 16px; left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            padding: 10px 16px;
-            border-radius: 6px;
-            font-size: 13px;
-            z-index: 500;
-            opacity: 0;
-            transition: all 0.3s;
+            background: var(--bg-secondary); border: 1px solid var(--border-color);
+            padding: 10px 16px; border-radius: 6px; font-size: 13px;
+            z-index: 500; opacity: 0; transition: all 0.3s;
         }
-
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-        /* ===== Input Modal ===== */
         .input-modal-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.7); z-index: 1000;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: all 0.3s;
         }
-
         .input-modal-overlay.open { opacity: 1; visibility: visible; }
-
         .input-modal {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            width: 90%;
-            max-width: 320px;
-            transform: scale(0.9);
-            transition: all 0.3s;
+            background: var(--bg-secondary); border: 1px solid var(--border-color);
+            border-radius: 12px; padding: 20px; width: 90%; max-width: 320px;
+            transform: scale(0.9); transition: all 0.3s;
         }
-
         .input-modal-overlay.open .input-modal { transform: scale(1); }
-
-        .input-modal-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
+        .input-modal-title { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
         .input-modal-input {
-            width: 100%;
-            padding: 10px 12px;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            color: var(--text-primary);
-            font-size: 14px;
-            margin-bottom: 16px;
+            width: 100%; padding: 10px 12px; background: var(--bg-primary);
+            border: 1px solid var(--border-color); border-radius: 6px;
+            color: var(--text-primary); font-size: 14px; margin-bottom: 16px;
         }
-
-        .input-modal-input:focus {
-            outline: none;
-            border-color: var(--accent-blue);
-        }
-
-        .input-modal-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
+        .input-modal-input:focus { outline: none; border-color: var(--accent-blue); }
+        .input-modal-buttons { display: flex; gap: 10px; }
         .input-modal-btn {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all 0.2s;
+            flex: 1; padding: 10px; border: none; border-radius: 6px;
+            cursor: pointer; font-size: 13px; transition: all 0.2s;
         }
-
         .input-modal-btn.cancel {
-            background: var(--bg-primary);
-            color: var(--text-secondary);
+            background: var(--bg-primary); color: var(--text-secondary);
             border: 1px solid var(--border-color);
         }
-
         .input-modal-btn.cancel:hover { border-color: var(--accent-blue); }
-
-        .input-modal-btn.confirm {
-            background: var(--accent-blue);
-            color: #fff;
-        }
-
+        .input-modal-btn.confirm { background: var(--accent-blue); color: #fff; }
         .input-modal-btn.confirm:hover { background: #1f6feb; }
 
-        /* ===== Responsive ===== */
         @media (max-width: 768px) {
             .header { padding: 0 10px; height: 44px; }
             .logo-title { display: none; }
@@ -693,35 +328,24 @@
                 <span class="logo-icon">🖥️</span>
                 <span class="logo-title">机位管理</span>
             </div>
-            <div class="store-switcher" id="storeSwitcher">
-                <!-- 动态渲染门店标签 -->
-            </div>
+            <div class="store-switcher" id="storeSwitcher"></div>
         </div>
         <div class="header-actions">
-            <button class="header-btn" id="addBtn">
-                <span>➕</span><span>添加</span>
-            </button>
-            <button class="header-btn" id="batchBtn">
-                <span>☑️</span><span>批量</span>
-            </button>
-            <button class="header-btn" id="resetBtn">
-                <span>🔄</span><span>重置</span>
-            </button>
-            <button class="header-btn" id="settingsBtn">
-                <span>⚙️</span><span>背景</span>
-            </button>
+            <button class="header-btn" id="addBtn"><span>➕</span><span>添加</span></button>
+            <button class="header-btn" id="batchBtn"><span>☑️</span><span>批量</span></button>
+            <button class="header-btn" id="exportBtn"><span>📊</span><span>导出</span></button>
+            <button class="header-btn" id="syncBtn"><span>☁️</span><span>同步</span></button>
+            <button class="header-btn" id="resetBtn"><span>🔄</span><span>重置</span></button>
+            <button class="header-btn" id="settingsBtn"><span>⚙️</span><span>背景</span></button>
         </div>
     </header>
 
-    <div class="selection-mode-hint" id="selectionHint">
-        批量选择模式：点击机位进行选择，再次点击取消
-    </div>
+    <div class="selection-mode-hint" id="selectionHint">批量选择模式：点击机位进行选择，再次点击取消</div>
 
     <div class="canvas-container" id="canvasContainer">
         <div id="canvas"></div>
     </div>
 
-    <!-- Input Modal -->
     <div class="input-modal-overlay" id="inputModalOverlay">
         <div class="input-modal">
             <div class="input-modal-title" id="inputModalTitle">请输入</div>
@@ -745,30 +369,28 @@
     <div class="toast" id="toast">已保存</div>
 
     <script>
-        // ==================== 常量 ====================
-        const iconOptions = ['🖥️', '💻', '🖱️', '⌨️', '🎮', '🔧', '⚡', '🔥', '💎', '🎯', '🏆', '⭐'];
-        const storeIcons = ['🏪', '🏢', '🎮', '🕹️', '💻', '🏠', '🏢', '🏗️'];
-
+        const iconOptions = ['🖥️','💻','🖱️','⌨️','🎮','🔧','⚡','🔥','💎','🎯','🏆','⭐'];
+        const storeIcons = ['🏪','🏢','🎮','🕹️','💻','🏠','🏗️','🎪'];
         const bgPresets = [
-            { name: '深空黑', color: '#0d1117' },
-            { name: '暗夜紫', color: '#1a1625' },
-            { name: '深海军蓝', color: '#0c1929' },
-            { name: '电竞绿', color: '#0a1f0a' },
-            { name: '暗红', color: '#1f0a0a' },
-            { name: '中性灰', color: '#1a1a1a' }
+            {name:'深空黑',color:'#0d1117'},{name:'暗夜紫',color:'#1a1625'},
+            {name:'深海军蓝',color:'#0c1929'},{name:'电竞绿',color:'#0a1f0a'},
+            {name:'暗红',color:'#1f0a0a'},{name:'中性灰',color:'#1a1a1a'}
         ];
-
         const bgColors = ['#0d1117','#161b22','#1a1625','#0c1929','#0a1f0a','#1f0a0a','#1a1a1a','#2d1b3d','#0d1f2d','#1f2d1f'];
 
-        // ==================== 全局状态 ====================
+        // ==================== JSONBin 云端配置 ====================
+        const JSONBIN_API_KEY = '$2a$10$M4C51X.vz0WOTMBRSU5XOOdrlzSYTq4qbzbPTCUAJIMRUG5BdP0Ai';
+        const JSONBIN_BIN_URL = 'https://api.jsonbin.io/v3/b/6a16b8b6f47d5c455c3c53f5';
+        const JSONBIN_MASTER_KEY = '$2a$10$M4C51X.vz0WOTMBRSU5XOOdrlzSYTq4qbzbPTCUAJIMRUG5BdP0Ai';
+
         let appData = { stores: [], activeStoreId: null };
         let draggedNode = null;
         let dragOffset = { x: 0, y: 0 };
         let selectedNode = null;
         let isBatchMode = false;
         let selectedNodes = new Set();
+        let isSyncing = false;
 
-        // ==================== DOM ====================
         const $ = id => document.getElementById(id);
         const canvas = $('canvas');
         const canvasContainer = $('canvasContainer');
@@ -780,121 +402,126 @@
         const selectionHint = $('selectionHint');
         const storeSwitcher = $('storeSwitcher');
 
-        // ==================== 当前门店快捷方法 ====================
-        function activeStore() {
-            return appData.stores.find(s => s.id === appData.activeStoreId) || null;
-        }
+        function activeStore() { return appData.stores.find(s => s.id === appData.activeStoreId) || null; }
+        function computers() { const s = activeStore(); return s ? s.computers : []; }
+        function storeSettings() { const s = activeStore(); return s ? s.settings : { background: { type: 'color', value: '#0d1117' } }; }
 
-        function computers() {
-            const s = activeStore();
-            return s ? s.computers : [];
-        }
-
-        function storeSettings() {
-            const s = activeStore();
-            return s ? s.settings : { background: { type: 'color', value: '#0d1117' } };
-        }
-
-        // ==================== 数据持久化 ====================
-        function loadData() {
-            const saved = localStorage.getItem('netbar_app_v2');
-            if (saved) {
-                appData = JSON.parse(saved);
-                // 兼容旧版数据迁移
-                if (!appData.stores || appData.stores.length === 0) {
-                    migrateOldData();
+        // ==================== JSONBin 云端同步 ====================
+        async function syncFromCloud() {
+            try {
+                showToast('正在从云端同步数据...');
+                const response = await fetch(`${JSONBIN_BIN_URL}/latest`, {
+                    method: 'GET',
+                    headers: {
+                        'X-Master-Key': JSONBIN_MASTER_KEY,
+                        'X-Bin-Meta': 'false'
+                    }
+                });
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.record && result.record.stores) {
+                        appData = result.record;
+                        saveDataLocal(); // 同时保存到本地作为备份
+                        showToast('云端数据同步成功！');
+                        return true;
+                    }
                 }
-            } else {
-                // 尝试迁移旧版
-                const oldComputers = localStorage.getItem('netbar_computers');
-                const oldSettings = localStorage.getItem('netbar_settings');
-                if (oldComputers || oldSettings) {
-                    migrateOldData();
+                return false;
+            } catch (e) {
+                console.error('云端同步失败:', e);
+                return false;
+            }
+        }
+
+        async function syncToCloud() {
+            if (isSyncing) return;
+            isSyncing = true;
+            try {
+                const response = await fetch(JSONBIN_BIN_URL, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': JSONBIN_MASTER_KEY
+                    },
+                    body: JSON.stringify(appData)
+                });
+                if (response.ok) {
+                    showToast('已同步到云端');
+                    return true;
                 } else {
-                    createDefaultData();
+                    showToast('云端同步失败');
+                    return false;
+                }
+            } catch (e) {
+                console.error('同步到云端失败:', e);
+                showToast('云端同步失败');
+                return false;
+            } finally {
+                isSyncing = false;
+            }
+        }
+
+        // ==================== 数据 ====================
+        async function loadData() {
+            // 首先尝试从云端同步
+            const cloudSuccess = await syncFromCloud();
+            
+            if (!cloudSuccess) {
+                // 云端失败，使用本地数据
+                const saved = localStorage.getItem('netbar_app_v2');
+                if (saved) {
+                    appData = JSON.parse(saved);
+                    if (!appData.stores || appData.stores.length === 0) migrateOldData();
+                } else {
+                    const oc = localStorage.getItem('netbar_computers');
+                    const os = localStorage.getItem('netbar_settings');
+                    if (oc || os) migrateOldData();
+                    else createDefaultData();
                 }
             }
+        }
+
+        function saveDataLocal() {
+            localStorage.setItem('netbar_app_v2', JSON.stringify(appData));
         }
 
         function migrateOldData() {
-            let oldComputers = [];
-            let oldSettings = { background: { type: 'color', value: '#0d1117' } };
-
-            try {
-                const c = localStorage.getItem('netbar_computers');
-                if (c) oldComputers = JSON.parse(c);
-            } catch(e) {}
-
-            try {
-                const s = localStorage.getItem('netbar_settings');
-                if (s) oldSettings = JSON.parse(s);
-            } catch(e) {}
-
-            if (oldComputers.length === 0) {
-                oldComputers = generateDefaultComputers();
-            }
-
-            const storeId = 'store_' + Date.now();
-            appData = {
-                stores: [{
-                    id: storeId,
-                    name: '默认门店',
-                    address: '',
-                    icon: '🏪',
-                    computers: oldComputers,
-                    settings: oldSettings
-                }],
-                activeStoreId: storeId
-            };
-
+            let oldC = [], oldS = { background: { type: 'color', value: '#0d1117' } };
+            try { const c = localStorage.getItem('netbar_computers'); if (c) oldC = JSON.parse(c); } catch(e) {}
+            try { const s = localStorage.getItem('netbar_settings'); if (s) oldS = JSON.parse(s); } catch(e) {}
+            if (oldC.length === 0) oldC = generateDefaultComputers();
+            const sid = 'store_' + Date.now();
+            appData = { stores: [{ id: sid, name: '默认门店', address: '', icon: '🏪', computers: oldC, settings: oldS }], activeStoreId: sid };
             saveData();
-            // 清理旧版数据
             localStorage.removeItem('netbar_computers');
             localStorage.removeItem('netbar_settings');
         }
 
         function createDefaultData() {
-            const storeId = 'store_' + Date.now();
-            appData = {
-                stores: [{
-                    id: storeId,
-                    name: '默认门店',
-                    address: '',
-                    icon: '🏪',
-                    computers: generateDefaultComputers(),
-                    settings: { background: { type: 'color', value: '#0d1117' } }
-                }],
-                activeStoreId: storeId
-            };
+            const sid = 'store_' + Date.now();
+            appData = { stores: [{ id: sid, name: '默认门店', address: '', icon: '🏪', computers: generateDefaultComputers(), settings: { background: { type: 'color', value: '#0d1117' } } }], activeStoreId: sid };
             saveData();
         }
 
         function generateDefaultComputers() {
             const comps = [];
-            for (let row = 0; row < 2; row++) {
-                for (let col = 0; col < 5; col++) {
-                    const rowLetter = String.fromCharCode(65 + row);
-                    comps.push({
-                        id: `${rowLetter}${col + 1}`,
-                        name: `${rowLetter}${col + 1}`,
-                        x: 80 + col * 70,
-                        y: 80 + row * 80,
-                        icon: '🖥️',
-                        hardware: { cpu: '', gpu: '', ram: '', storage: '', monitor: '', mouse: '', keyboard: '', headset: '' }
-                    });
+            for (let r = 0; r < 2; r++) {
+                for (let c = 0; c < 5; c++) {
+                    const rl = String.fromCharCode(65 + r);
+                    comps.push({ id: `${rl}${c+1}`, name: `${rl}${c+1}`, x: 80 + c * 70, y: 80 + r * 80, icon: '🖥️', hardware: { cpu:'', gpu:'', ram:'', motherboard:'', power:'', nic:'', cooler:'', monitor:'', mouse:'', keyboard:'', headset:'' } });
                 }
             }
             return comps;
         }
 
-        function saveData() {
-            localStorage.setItem('netbar_app_v2', JSON.stringify(appData));
+        async function saveData() {
+            saveDataLocal();
+            await syncToCloud();
         }
 
-        // ==================== 门店切换器渲染 ====================
+        // ==================== 门店 ====================
         function renderStoreSwitcher() {
             storeSwitcher.innerHTML = '';
-
             appData.stores.forEach(store => {
                 const tab = document.createElement('button');
                 tab.className = 'store-tab' + (store.id === appData.activeStoreId ? ' active' : '');
@@ -903,33 +530,20 @@
                 tab.addEventListener('click', () => switchStore(store.id));
                 storeSwitcher.appendChild(tab);
             });
-
-            // 新增按钮
             const addTab = document.createElement('button');
-            addTab.className = 'store-tab-add';
-            addTab.textContent = '+';
-            addTab.title = '新增门店';
+            addTab.className = 'store-tab-add'; addTab.textContent = '+'; addTab.title = '新增门店';
             addTab.addEventListener('click', () => openStoreForm(null));
             storeSwitcher.appendChild(addTab);
-
-            // 管理按钮
             const manageTab = document.createElement('button');
-            manageTab.className = 'store-tab-manage';
-            manageTab.textContent = '⚙';
-            manageTab.title = '管理门店';
+            manageTab.className = 'store-tab-manage'; manageTab.textContent = '⚙'; manageTab.title = '管理门店';
             manageTab.addEventListener('click', openStoreManager);
             storeSwitcher.appendChild(manageTab);
         }
 
-        // ==================== 门店操作 ====================
-        function switchStore(storeId) {
+        function switchStore(id) {
             if (isBatchMode) exitBatchMode();
-            appData.activeStoreId = storeId;
-            saveData();
-            renderStoreSwitcher();
-            renderCanvas();
-            applyBackground();
-            updateHeaderTitle();
+            appData.activeStoreId = id; saveData();
+            renderStoreSwitcher(); renderCanvas(); applyBackground(); updateHeaderTitle();
         }
 
         function updateHeaderTitle() {
@@ -939,96 +553,60 @@
 
         function openStoreManager() {
             panelTitle.textContent = '门店管理';
-
             let html = '<div class="store-list">';
-
             appData.stores.forEach(store => {
                 const isActive = store.id === appData.activeStoreId;
-                html += `
-                    <div class="store-item ${isActive ? 'active' : ''}" data-store-id="${store.id}">
-                        <div class="store-item-icon">${store.icon}</div>
-                        <div class="store-item-info">
-                            <div class="store-item-name">${store.name}${isActive ? ' (当前)' : ''}</div>
-                            <div class="store-item-addr">${store.address || '未设置地址'}</div>
-                        </div>
-                        <div class="store-item-count">${store.computers.length}台</div>
-                        <div class="store-item-actions">
-                            <button class="store-action-btn edit" title="编辑" data-action="edit" data-id="${store.id}">✏️</button>
-                            <button class="store-action-btn delete" title="删除" data-action="delete" data-id="${store.id}">🗑️</button>
-                        </div>
+                html += `<div class="store-item ${isActive ? 'active' : ''}" data-store-id="${store.id}">
+                    <div class="store-item-icon">${store.icon}</div>
+                    <div class="store-item-info">
+                        <div class="store-item-name">${store.name}${isActive ? ' (当前)' : ''}</div>
+                        <div class="store-item-addr">${store.address || '未设置地址'}</div>
                     </div>
-                `;
+                    <div class="store-item-count">${store.computers.length}台</div>
+                    <div class="store-item-actions">
+                        <button class="store-action-btn edit" title="编辑" data-action="edit" data-id="${store.id}">✏️</button>
+                        <button class="store-action-btn delete" title="删除" data-action="delete" data-id="${store.id}">🗑️</button>
+                    </div>
+                </div>`;
             });
-
-            html += '</div>';
-            html += '<button class="btn-green" id="addStoreBtn">➕ 新增门店</button>';
-
+            html += '</div><button class="btn-green" id="addStoreBtn">➕ 新增门店</button>';
             panelContent.innerHTML = html;
 
-            // 绑定事件
             panelContent.querySelectorAll('.store-item').forEach(item => {
                 item.addEventListener('click', (e) => {
-                    // 如果点击的是操作按钮，不切换
                     if (e.target.closest('.store-action-btn')) return;
-                    const id = item.dataset.storeId;
-                    switchStore(id);
-                    closePanel();
+                    switchStore(item.dataset.storeId); closePanel();
                 });
             });
-
             panelContent.querySelectorAll('.store-action-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    const action = btn.dataset.action;
-                    const id = btn.dataset.id;
-                    if (action === 'edit') {
-                        openStoreForm(id);
-                    } else if (action === 'delete') {
-                        deleteStore(id);
-                    }
+                    if (btn.dataset.action === 'edit') openStoreForm(btn.dataset.id);
+                    else if (btn.dataset.action === 'delete') deleteStore(btn.dataset.id);
                 });
             });
-
             $('addStoreBtn').addEventListener('click', () => openStoreForm(null));
-
             openPanel();
         }
 
         function openStoreForm(storeId) {
             const store = storeId ? appData.stores.find(s => s.id === storeId) : null;
             const isEdit = !!store;
-
             panelTitle.textContent = isEdit ? '编辑门店' : '新增门店';
-
             panelContent.innerHTML = `
                 <div class="hardware-section">
                     <div class="hardware-title">${isEdit ? '✏️' : '➕'} ${isEdit ? '编辑门店信息' : '新建门店'}</div>
-
-                    <div class="form-group">
-                        <label class="form-label">门店名称</label>
-                        <input type="text" class="form-input" id="storeName" value="${store ? store.name : ''}" placeholder="如：中关村旗舰店">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">门店地址</label>
-                        <input type="text" class="form-input" id="storeAddr" value="${store ? store.address : ''}" placeholder="如：北京市海淀区中关村大街1号">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">门店图标</label>
-                        <div class="icon-picker">
-                            ${storeIcons.map(icon => `
-                                <div class="icon-option ${store && store.icon === icon ? 'active' : ''}" data-icon="${icon}">${icon}</div>
-                            `).join('')}
-                        </div>
+                    <div class="form-group"><label class="form-label">门店名称</label>
+                        <input type="text" class="form-input" id="storeName" value="${store ? store.name : ''}" placeholder="如：中关村旗舰店"></div>
+                    <div class="form-group"><label class="form-label">门店地址</label>
+                        <input type="text" class="form-input" id="storeAddr" value="${store ? store.address : ''}" placeholder="如：北京市海淀区中关村大街1号"></div>
+                    <div class="form-group"><label class="form-label">门店图标</label>
+                        <div class="icon-picker">${storeIcons.map(icon => `<div class="icon-option ${store && store.icon === icon ? 'active' : ''}" data-icon="${icon}">${icon}</div>`).join('')}</div>
                     </div>
                 </div>
-
                 <button class="btn-primary" id="storeSaveBtn">${isEdit ? '💾 保存修改' : '✅ 创建门店'}</button>
-                ${isEdit ? '<div style="height:10px"></div><button class="btn-secondary" id="storeCancelBtn">取消</button>' : ''}
-            `;
+                ${isEdit ? '<div style="height:10px"></div><button class="btn-secondary" id="storeCancelBtn">取消</button>' : ''}`;
 
-            // 图标选择
             panelContent.querySelectorAll('.icon-option').forEach(opt => {
                 opt.addEventListener('click', () => {
                     panelContent.querySelectorAll('.icon-option').forEach(o => o.classList.remove('active'));
@@ -1036,89 +614,43 @@
                 });
             });
 
-            // 保存
             $('storeSaveBtn').addEventListener('click', () => {
                 const name = $('storeName').value.trim();
-                if (!name) {
-                    showToast('请输入门店名称');
-                    return;
-                }
-
+                if (!name) { showToast('请输入门店名称'); return; }
                 const address = $('storeAddr').value.trim();
                 const icon = panelContent.querySelector('.icon-option.active')?.dataset.icon || '🏪';
-
                 if (isEdit) {
-                    store.name = name;
-                    store.address = address;
-                    store.icon = icon;
+                    store.name = name; store.address = address; store.icon = icon;
                     showToast('门店信息已更新');
                 } else {
-                    const newStore = {
-                        id: 'store_' + Date.now(),
-                        name,
-                        address,
-                        icon,
-                        computers: [],
-                        settings: { background: { type: 'color', value: '#0d1117' } }
-                    };
-                    appData.stores.push(newStore);
-                    appData.activeStoreId = newStore.id;
+                    const ns = { id: 'store_' + Date.now(), name, address, icon, computers: [], settings: { background: { type: 'color', value: '#0d1117' } } };
+                    appData.stores.push(ns); appData.activeStoreId = ns.id;
                     showToast(`已创建门店「${name}」`);
                 }
-
-                saveData();
-                renderStoreSwitcher();
-                renderCanvas();
-                applyBackground();
-                updateHeaderTitle();
-                closePanel();
+                saveData(); renderStoreSwitcher(); renderCanvas(); applyBackground(); updateHeaderTitle(); closePanel();
             });
 
-            if (isEdit) {
-                $('storeCancelBtn').addEventListener('click', () => {
-                    openStoreManager();
-                });
-            }
-
+            if (isEdit) $('storeCancelBtn').addEventListener('click', () => openStoreManager());
             openPanel();
         }
 
         function deleteStore(storeId) {
-            if (appData.stores.length <= 1) {
-                showToast('至少保留一个门店');
-                return;
-            }
-
+            if (appData.stores.length <= 1) { showToast('至少保留一个门店'); return; }
             const store = appData.stores.find(s => s.id === storeId);
             if (!store) return;
-
-            if (!confirm(`确定删除门店「${store.name}」？该门店的所有机位数据将被删除。`)) return;
-
-            appData.stores = appData.stores.filter(s => s.id !== storeId);
-
-            // 如果删除的是当前门店，切换到第一个
-            if (appData.activeStoreId === storeId) {
-                appData.activeStoreId = appData.stores[0].id;
-            }
-
-            saveData();
-            renderStoreSwitcher();
-            renderCanvas();
-            applyBackground();
-            updateHeaderTitle();
-            showToast(`已删除门店「${store.name}」`);
-
-            // 刷新管理面板
-            openStoreManager();
+            showConfirmModal(`确定删除门店「${store.name}」？该门店的所有机位数据将被删除。`).then(ok => {
+                if (!ok) return;
+                appData.stores = appData.stores.filter(s => s.id !== storeId);
+                if (appData.activeStoreId === storeId) appData.activeStoreId = appData.stores[0].id;
+                saveData(); renderStoreSwitcher(); renderCanvas(); applyBackground(); updateHeaderTitle();
+                showToast(`已删除门店「${store.name}」`); openStoreManager();
+            });
         }
 
-        // ==================== 画布渲染 ====================
+        // ==================== 画布 ====================
         function renderCanvas() {
             canvas.innerHTML = '';
-            computers().forEach(comp => {
-                const node = createNode(comp);
-                canvas.appendChild(node);
-            });
+            computers().forEach(comp => canvas.appendChild(createNode(comp)));
             updateSelectionVisuals();
         }
 
@@ -1127,30 +659,16 @@
             node.className = 'computer-node';
             if (selectedNodes.has(comp.id)) node.classList.add('selected');
             node.dataset.id = comp.id;
-            node.style.left = comp.x + 'px';
-            node.style.top = comp.y + 'px';
-
-            node.innerHTML = `
-                <div class="node-card">
-                    <span class="node-icon">${comp.icon}</span>
-                    <span class="node-name" title="${comp.name}">${comp.name}</span>
-                    <span class="node-id">${comp.id}</span>
-                </div>
-            `;
-
+            node.style.left = comp.x + 'px'; node.style.top = comp.y + 'px';
+            node.innerHTML = `<div class="node-card"><span class="node-icon">${comp.icon}</span><span class="node-name" title="${comp.name}">${comp.name}</span><span class="node-id">${comp.id}</span></div>`;
             node.addEventListener('mousedown', onDragStart);
             node.addEventListener('touchstart', onDragStart, { passive: false });
-
             node.addEventListener('click', () => {
                 if (!draggedNode) {
-                    if (isBatchMode) {
-                        toggleSelection(comp.id);
-                    } else {
-                        openEditPanel(comp);
-                    }
+                    if (isBatchMode) toggleSelection(comp.id);
+                    else openEditPanel(comp);
                 }
             });
-
             return node;
         }
 
@@ -1158,16 +676,11 @@
         function onDragStart(e) {
             if (isBatchMode) return;
             e.preventDefault();
-            const node = e.currentTarget;
-            draggedNode = node;
-            node.classList.add('dragging');
-
+            const node = e.currentTarget; draggedNode = node; node.classList.add('dragging');
             const rect = node.getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            dragOffset.x = clientX - rect.left;
-            dragOffset.y = clientY - rect.top;
-
+            const cx = e.touches ? e.touches[0].clientX : e.clientX;
+            const cy = e.touches ? e.touches[0].clientY : e.clientY;
+            dragOffset.x = cx - rect.left; dragOffset.y = cy - rect.top;
             document.addEventListener('mousemove', onDragMove);
             document.addEventListener('mouseup', onDragEnd);
             document.addEventListener('touchmove', onDragMove, { passive: false });
@@ -1175,32 +688,20 @@
         }
 
         function onDragMove(e) {
-            if (!draggedNode) return;
-            e.preventDefault();
-            const canvasRect = canvas.getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-
-            let newX = clientX - canvasRect.left - dragOffset.x;
-            let newY = clientY - canvasRect.top - dragOffset.y;
-            newX = Math.max(0, Math.min(newX, canvasRect.width - 60));
-            newY = Math.max(0, Math.min(newY, canvasRect.height - 60));
-
-            draggedNode.style.left = newX + 'px';
-            draggedNode.style.top = newY + 'px';
+            if (!draggedNode) return; e.preventDefault();
+            const cr = canvas.getBoundingClientRect();
+            const cx = e.touches ? e.touches[0].clientX : e.clientX;
+            const cy = e.touches ? e.touches[0].clientY : e.clientY;
+            let nx = cx - cr.left - dragOffset.x, ny = cy - cr.top - dragOffset.y;
+            nx = Math.max(0, Math.min(nx, cr.width - 60)); ny = Math.max(0, Math.min(ny, cr.height - 60));
+            draggedNode.style.left = nx + 'px'; draggedNode.style.top = ny + 'px';
         }
 
         function onDragEnd() {
             if (draggedNode) {
-                const id = draggedNode.dataset.id;
-                const comp = computers().find(c => c.id === id);
-                if (comp) {
-                    comp.x = parseInt(draggedNode.style.left);
-                    comp.y = parseInt(draggedNode.style.top);
-                    saveData();
-                }
-                draggedNode.classList.remove('dragging');
-                draggedNode = null;
+                const comp = computers().find(c => c.id === draggedNode.dataset.id);
+                if (comp) { comp.x = parseInt(draggedNode.style.left); comp.y = parseInt(draggedNode.style.top); saveData(); }
+                draggedNode.classList.remove('dragging'); draggedNode = null;
             }
             document.removeEventListener('mousemove', onDragMove);
             document.removeEventListener('mouseup', onDragEnd);
@@ -1209,88 +710,45 @@
         }
 
         // ==================== 选择 ====================
-        function toggleSelection(id) {
-            if (selectedNodes.has(id)) selectedNodes.delete(id);
-            else selectedNodes.add(id);
-            updateSelectionVisuals();
-        }
-
+        function toggleSelection(id) { if (selectedNodes.has(id)) selectedNodes.delete(id); else selectedNodes.add(id); updateSelectionVisuals(); }
         function updateSelectionVisuals() {
-            document.querySelectorAll('.computer-node').forEach(node => {
-                node.classList.toggle('selected', selectedNodes.has(node.dataset.id));
-            });
+            document.querySelectorAll('.computer-node').forEach(n => n.classList.toggle('selected', selectedNodes.has(n.dataset.id)));
         }
 
         // ==================== 编辑面板 ====================
         function openEditPanel(comp) {
             selectedNode = comp;
             panelTitle.textContent = `编辑 ${comp.id}`;
-
             panelContent.innerHTML = `
-                <div class="hardware-section">
-                    <div class="hardware-title">📋 基本信息</div>
-                    <div class="form-group">
-                        <label class="form-label">显示名称</label>
-                        <input type="text" class="form-input" id="editName" value="${comp.name}" placeholder="如：机皇01">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">图标</label>
-                        <div class="icon-picker">
-                            ${iconOptions.map(icon => `
-                                <div class="icon-option ${comp.icon === icon ? 'active' : ''}" data-icon="${icon}">${icon}</div>
-                            `).join('')}
-                        </div>
+                <div class="hardware-section"><div class="hardware-title">📋 基本信息</div>
+                    <div class="form-group"><label class="form-label">显示名称</label><input type="text" class="form-input" id="editName" value="${comp.name}" placeholder="如：机皇01"></div>
+                    <div class="form-group"><label class="form-label">图标</label>
+                        <div class="icon-picker">${iconOptions.map(i => `<div class="icon-option ${comp.icon === i ? 'active' : ''}" data-icon="${i}">${i}</div>`).join('')}</div>
                     </div>
                 </div>
-
-                <div class="hardware-section">
-                    <div class="hardware-title">⚙️ 核心硬件</div>
+                <div class="hardware-section"><div class="hardware-title">⚙️ 核心硬件</div>
                     <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label">处理器 (CPU)</label>
-                            <input type="text" class="form-input" id="editCpu" value="${comp.hardware.cpu}" placeholder="如：Intel i9-14900K">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">显卡 (GPU)</label>
-                            <input type="text" class="form-input" id="editGpu" value="${comp.hardware.gpu}" placeholder="如：RTX 4090">
-                        </div>
+                        <div class="form-group"><label class="form-label">处理器 (CPU)</label><input type="text" class="form-input" id="editCpu" value="${comp.hardware.cpu}" placeholder="如：Intel i9-14900K"></div>
+                        <div class="form-group"><label class="form-label">显卡 (GPU)</label><input type="text" class="form-input" id="editGpu" value="${comp.hardware.gpu}" placeholder="如：RTX 4090"></div>
                     </div>
                     <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label">内存 (RAM)</label>
-                            <input type="text" class="form-input" id="editRam" value="${comp.hardware.ram}" placeholder="如：64GB DDR5">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">存储</label>
-                            <input type="text" class="form-input" id="editStorage" value="${comp.hardware.storage}" placeholder="如：2TB NVMe SSD">
-                        </div>
+                        <div class="form-group"><label class="form-label">内存 (RAM)</label><input type="text" class="form-input" id="editRam" value="${comp.hardware.ram}" placeholder="如：64GB DDR5"></div>
+                        <div class="form-group"><label class="form-label">主板</label><input type="text" class="form-input" id="editMotherboard" value="${comp.hardware.motherboard}" placeholder="如：华硕 ROG MAXIMUS Z790"></div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">显示器</label>
-                        <input type="text" class="form-input" id="editMonitor" value="${comp.hardware.monitor}" placeholder="如：32&quot; 4K 144Hz">
+                    <div class="form-grid">
+                        <div class="form-group"><label class="form-label">电源</label><input type="text" class="form-input" id="editPower" value="${comp.hardware.power}" placeholder="如：850W 金牌"></div>
+                        <div class="form-group"><label class="form-label">散热器</label><input type="text" class="form-input" id="editCooler" value="${comp.hardware.cooler}" placeholder="如：360 一体式水冷"></div>
                     </div>
+                    <div class="form-group"><label class="form-label">网卡</label><input type="text" class="form-input" id="editNic" value="${comp.hardware.nic}" placeholder="如：Intel I226-V 2.5G"></div>
+                    <div class="form-group"><label class="form-label">显示器</label><input type="text" class="form-input" id="editMonitor" value="${comp.hardware.monitor}" placeholder="如：27&quot; 2K 165Hz"></div>
                 </div>
-
-                <div class="hardware-section">
-                    <div class="hardware-title">🎮 外设配置</div>
-                    <div class="form-group">
-                        <label class="form-label">鼠标</label>
-                        <input type="text" class="form-input" id="editMouse" value="${comp.hardware.mouse}" placeholder="如：罗技 G Pro X">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">键盘</label>
-                        <input type="text" class="form-input" id="editKeyboard" value="${comp.hardware.keyboard}" placeholder="如：Cherry MX 8.0">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">耳机</label>
-                        <input type="text" class="form-input" id="editHeadset" value="${comp.hardware.headset}" placeholder="如：HyperX Cloud Alpha">
-                    </div>
+                <div class="hardware-section"><div class="hardware-title">🎮 外设配置</div>
+                    <div class="form-group"><label class="form-label">鼠标</label><input type="text" class="form-input" id="editMouse" value="${comp.hardware.mouse}" placeholder="如：罗技 G Pro X"></div>
+                    <div class="form-group"><label class="form-label">键盘</label><input type="text" class="form-input" id="editKeyboard" value="${comp.hardware.keyboard}" placeholder="如：Cherry MX 8.0"></div>
+                    <div class="form-group"><label class="form-label">耳机</label><input type="text" class="form-input" id="editHeadset" value="${comp.hardware.headset}" placeholder="如：HyperX Cloud Alpha"></div>
                 </div>
-
                 <button class="btn-primary" id="saveBtn">💾 保存修改</button>
-                <div style="height:10px"></div>
-                <button class="btn-danger" id="deleteBtn">🗑️ 删除机位</button>
-            `;
+                <div style="height:10px"></div><button class="btn-danger" id="deleteBtn">🗑️ 删除机位</button>`;
 
             panelContent.querySelectorAll('.icon-option').forEach(opt => {
                 opt.addEventListener('click', () => {
@@ -1302,434 +760,259 @@
             $('saveBtn').addEventListener('click', () => {
                 comp.name = $('editName').value || comp.id;
                 comp.icon = panelContent.querySelector('.icon-option.active')?.dataset.icon || comp.icon;
-                comp.hardware.cpu = $('editCpu').value;
-                comp.hardware.gpu = $('editGpu').value;
-                comp.hardware.ram = $('editRam').value;
-                comp.hardware.storage = $('editStorage').value;
-                comp.hardware.monitor = $('editMonitor').value;
-                comp.hardware.mouse = $('editMouse').value;
-                comp.hardware.keyboard = $('editKeyboard').value;
+                comp.hardware.cpu = $('editCpu').value; comp.hardware.gpu = $('editGpu').value;
+                comp.hardware.ram = $('editRam').value; comp.hardware.motherboard = $('editMotherboard').value;
+                comp.hardware.power = $('editPower').value; comp.hardware.cooler = $('editCooler').value;
+                comp.hardware.nic = $('editNic').value; comp.hardware.monitor = $('editMonitor').value;
+                comp.hardware.mouse = $('editMouse').value; comp.hardware.keyboard = $('editKeyboard').value;
                 comp.hardware.headset = $('editHeadset').value;
-                saveData();
-                renderCanvas();
-                showToast('已保存修改');
-                closePanel();
+                saveData(); renderCanvas(); showToast('已保存修改'); closePanel();
             });
 
             $('deleteBtn').addEventListener('click', () => {
-                if (confirm(`确定删除机位 ${comp.id}（${comp.name}）？`)) {
-                    const store = activeStore();
-                    if (!store) {
-                        showToast('门店数据异常');
-                        return;
-                    }
+                showConfirmModal(`确定删除机位 ${comp.id}（${comp.name}）？`).then(ok => {
+                    if (!ok) return;
+                    const store = activeStore(); if (!store) return;
                     store.computers = store.computers.filter(c => c.id !== comp.id);
-                    saveData();
-                    renderCanvas();
-                    closePanel();
-                    showToast('已删除机位');
-                }
+                    saveData(); renderCanvas(); closePanel(); showToast('已删除机位');
+                });
             });
-
             openPanel();
         }
 
         // ==================== 批量编辑 ====================
         function openBatchPanel() {
-            if (selectedNodes.size === 0) {
-                showToast('请先选择要批量编辑的机位');
-                return;
-            }
-
+            if (selectedNodes.size === 0) { showToast('请先选择要批量编辑的机位'); return; }
             const selectedComps = computers().filter(c => selectedNodes.has(c.id));
             panelTitle.textContent = `批量编辑 (${selectedNodes.size} 台)`;
-
             panelContent.innerHTML = `
-                <div class="batch-info">
-                    已选择 <span class="batch-count">${selectedNodes.size}</span> 台机位进行批量修改（留空则保持不变）
+                <div class="batch-info">已选择 <span class="batch-count">${selectedNodes.size}</span> 台机位进行批量修改（留空则保持不变）</div>
+                <div class="hardware-section"><div class="hardware-title">📋 图标</div>
+                    <div class="icon-picker">${iconOptions.map(i => `<div class="icon-option" data-icon="${i}">${i}</div>`).join('')}</div>
                 </div>
-
-                <div class="hardware-section">
-                    <div class="hardware-title">📋 图标</div>
-                    <div class="icon-picker">
-                        ${iconOptions.map(icon => `
-                            <div class="icon-option" data-icon="${icon}">${icon}</div>
-                        `).join('')}
-                    </div>
-                </div>
-
-                <div class="hardware-section">
-                    <div class="hardware-title">⚙️ 核心硬件</div>
+                <div class="hardware-section"><div class="hardware-title">⚙️ 核心硬件</div>
                     <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label">CPU</label>
-                            <input type="text" class="form-input" id="batchCpu" placeholder="留空不变">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">GPU</label>
-                            <input type="text" class="form-input" id="batchGpu" placeholder="留空不变">
-                        </div>
+                        <div class="form-group"><label class="form-label">CPU</label><input type="text" class="form-input" id="batchCpu" placeholder="留空不变"></div>
+                        <div class="form-group"><label class="form-label">GPU</label><input type="text" class="form-input" id="batchGpu" placeholder="留空不变"></div>
                     </div>
                     <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label">内存</label>
-                            <input type="text" class="form-input" id="batchRam" placeholder="留空不变">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">存储</label>
-                            <input type="text" class="form-input" id="batchStorage" placeholder="留空不变">
-                        </div>
+                        <div class="form-group"><label class="form-label">内存</label><input type="text" class="form-input" id="batchRam" placeholder="留空不变"></div>
+                        <div class="form-group"><label class="form-label">主板</label><input type="text" class="form-input" id="batchMotherboard" placeholder="留空不变"></div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">显示器</label>
-                        <input type="text" class="form-input" id="batchMonitor" placeholder="留空不变">
+                    <div class="form-grid">
+                        <div class="form-group"><label class="form-label">电源</label><input type="text" class="form-input" id="batchPower" placeholder="留空不变"></div>
+                        <div class="form-group"><label class="form-label">散热器</label><input type="text" class="form-input" id="batchCooler" placeholder="留空不变"></div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group"><label class="form-label">网卡</label><input type="text" class="form-input" id="batchNic" placeholder="留空不变"></div>
+                        <div class="form-group"><label class="form-label">显示器</label><input type="text" class="form-input" id="batchMonitor" placeholder="留空不变"></div>
                     </div>
                 </div>
-
-                <div class="hardware-section">
-                    <div class="hardware-title">🎮 外设</div>
-                    <div class="form-group">
-                        <label class="form-label">鼠标</label>
-                        <input type="text" class="form-input" id="batchMouse" placeholder="留空不变">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">键盘</label>
-                        <input type="text" class="form-input" id="batchKeyboard" placeholder="留空不变">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">耳机</label>
-                        <input type="text" class="form-input" id="batchHeadset" placeholder="留空不变">
-                    </div>
+                <div class="hardware-section"><div class="hardware-title">🎮 外设</div>
+                    <div class="form-group"><label class="form-label">鼠标</label><input type="text" class="form-input" id="batchMouse" placeholder="留空不变"></div>
+                    <div class="form-group"><label class="form-label">键盘</label><input type="text" class="form-input" id="batchKeyboard" placeholder="留空不变"></div>
+                    <div class="form-group"><label class="form-label">耳机</label><input type="text" class="form-input" id="batchHeadset" placeholder="留空不变"></div>
                 </div>
-
                 <button class="btn-primary" id="batchSaveBtn">💾 批量保存</button>
-                <div style="height:10px"></div>
-                <button class="btn-secondary" id="clearSelectionBtn">❌ 清空选择</button>
-                <div style="height:10px"></div>
-                <button class="btn-danger" id="batchDeleteBtn">🗑️ 批量删除</button>
-            `;
+                <div style="height:10px"></div><button class="btn-secondary" id="clearSelectionBtn">❌ 清空选择</button>
+                <div style="height:10px"></div><button class="btn-danger" id="batchDeleteBtn">🗑️ 批量删除</button>`;
 
             let selectedIcon = null;
             panelContent.querySelectorAll('.icon-option').forEach(opt => {
                 opt.addEventListener('click', () => {
                     panelContent.querySelectorAll('.icon-option').forEach(o => o.classList.remove('active'));
-                    opt.classList.add('active');
-                    selectedIcon = opt.dataset.icon;
+                    opt.classList.add('active'); selectedIcon = opt.dataset.icon;
                 });
             });
 
             $('batchSaveBtn').addEventListener('click', () => {
-                const fields = ['Cpu','Gpu','Ram','Storage','Monitor','Mouse','Keyboard','Headset'];
-                const hwKeys = ['cpu','gpu','ram','storage','monitor','mouse','keyboard','headset'];
-
+                const fields = ['Cpu','Gpu','Ram','Motherboard','Power','Cooler','Nic','Monitor','Mouse','Keyboard','Headset'];
+                const hwKeys = ['cpu','gpu','ram','motherboard','power','cooler','nic','monitor','mouse','keyboard','headset'];
                 selectedComps.forEach(comp => {
                     if (selectedIcon) comp.icon = selectedIcon;
-                    hwKeys.forEach((key, i) => {
-                        const val = $('batch' + fields[i]).value;
-                        if (val) comp.hardware[key] = val;
-                    });
+                    hwKeys.forEach((key, i) => { const v = $('batch' + fields[i]).value; if (v) comp.hardware[key] = v; });
                 });
-
-                saveData();
-                renderCanvas();
-                showToast(`已批量修改 ${selectedNodes.size} 台机位`);
-                closePanel();
-                exitBatchMode();
+                saveData(); renderCanvas(); showToast(`已批量修改 ${selectedNodes.size} 台机位`); closePanel(); exitBatchMode();
             });
 
-            $('clearSelectionBtn').addEventListener('click', () => {
-                selectedNodes.clear();
-                renderCanvas();
-                closePanel();
-                showToast('已清空选择');
-            });
-
+            $('clearSelectionBtn').addEventListener('click', () => { selectedNodes.clear(); renderCanvas(); closePanel(); showToast('已清空选择'); });
             $('batchDeleteBtn').addEventListener('click', () => {
-                if (confirm(`确定删除选中的 ${selectedNodes.size} 台机位？`)) {
-                    const store = activeStore();
-                    if (!store) {
-                        showToast('门店数据异常');
-                        return;
-                    }
+                showConfirmModal(`确定删除选中的 ${selectedNodes.size} 台机位？`).then(ok => {
+                    if (!ok) return;
+                    const store = activeStore(); if (!store) return;
                     store.computers = store.computers.filter(c => !selectedNodes.has(c.id));
-                    saveData();
-                    renderCanvas();
-                    closePanel();
-                    exitBatchMode();
-                    showToast(`已删除 ${selectedNodes.size} 台机位`);
-                }
+                    saveData(); renderCanvas(); closePanel(); exitBatchMode(); showToast(`已删除 ${selectedNodes.size} 台机位`);
+                });
+            });
+            openPanel();
+        }
+
+        // ==================== 导出功能 ====================
+        function exportToCSV() {
+            const store = activeStore();
+            if (!store) { showToast('请先选择一个门店'); return; }
+            if (store.computers.length === 0) { showToast('当前门店没有机位数据'); return; }
+
+            const headers = ['编号', '名称', 'CPU', '显卡', '内存', '主板', '电源', '散热器', '网卡', '显示器', '鼠标', '键盘', '耳机'];
+            const keys = ['id', 'name', 'cpu', 'gpu', 'ram', 'motherboard', 'power', 'cooler', 'nic', 'monitor', 'mouse', 'keyboard', 'headset'];
+
+            // 生成 CSV 内容（带 BOM 以支持 Excel 中文）
+            let csv = '\uFEFF' + headers.join(',') + '\n';
+            store.computers.forEach(comp => {
+                const row = keys.map(k => {
+                    let val = k === 'id' || k === 'name' ? comp[k] : (comp.hardware[k] || '');
+                    // 转义逗号和引号
+                    val = String(val).replace(/"/g, '""');
+                    return `"${val}"`;
+                });
+                csv += row.join(',') + '\n';
             });
 
-            openPanel();
+            // 下载文件
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${store.name}_机位配置表_${new Date().toLocaleDateString('zh-CN').replace(/\//g, '-')}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showToast(`已导出 ${store.computers.length} 台机位信息`);
         }
 
         // ==================== 背景 ====================
         function applyBackground() {
             const bg = storeSettings().background;
-            if (bg.type === 'color') {
-                canvasContainer.style.background = bg.value;
-            } else if (bg.type === 'image') {
-                canvasContainer.style.background = `url(${bg.value}) center/cover no-repeat`;
-            }
+            if (bg.type === 'color') canvasContainer.style.background = bg.value;
+            else if (bg.type === 'image') canvasContainer.style.background = `url(${bg.value}) center/cover no-repeat`;
         }
 
         function openBackgroundPanel() {
             panelTitle.textContent = '背景设置';
             const currentBg = storeSettings().background.value;
-
             panelContent.innerHTML = `
                 <div class="hardware-section">
                     <div class="hardware-title">🎨 预设背景</div>
-                    <div class="bg-presets">
-                        ${bgPresets.map(p => `
-                            <div class="bg-preset ${currentBg === p.color ? 'active' : ''}"
-                                 style="background:${p.color}" data-bg="${p.color}"></div>
-                        `).join('')}
-                    </div>
-
+                    <div class="bg-presets">${bgPresets.map(p => `<div class="bg-preset ${currentBg === p.color ? 'active' : ''}" style="background:${p.color}" data-bg="${p.color}"></div>`).join('')}</div>
                     <div class="hardware-title" style="margin-top:12px">🎨 纯色选择</div>
-                    <div class="color-swatches">
-                        ${bgColors.map(c => `
-                            <div class="color-swatch ${currentBg === c ? 'active' : ''}"
-                                 style="background:${c}" data-bg="${c}"></div>
-                        `).join('')}
-                    </div>
-
+                    <div class="color-swatches">${bgColors.map(c => `<div class="color-swatch ${currentBg === c ? 'active' : ''}" style="background:${c}" data-bg="${c}"></div>`).join('')}</div>
                     <div class="hardware-title" style="margin-top:12px">📷 自定义图片</div>
                     <button class="upload-btn" id="uploadBtn">点击上传背景图片</button>
                     <input type="file" id="bgImageInput" accept="image/*">
-                </div>
-            `;
+                </div>`;
 
             panelContent.querySelectorAll('.bg-preset, .color-swatch').forEach(el => {
                 el.addEventListener('click', () => {
                     panelContent.querySelectorAll('.bg-preset, .color-swatch').forEach(e => e.classList.remove('active'));
                     el.classList.add('active');
                     storeSettings().background = { type: 'color', value: el.dataset.bg };
-                    saveData();
-                    applyBackground();
-                    showToast('背景已更新');
+                    saveData(); applyBackground(); showToast('背景已更新');
                 });
             });
 
             $('uploadBtn').addEventListener('click', () => $('bgImageInput').click());
-
             $('bgImageInput').addEventListener('change', (e) => {
                 const file = e.target.files[0];
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = (ev) => {
                         storeSettings().background = { type: 'image', value: ev.target.result };
-                        saveData();
-                        applyBackground();
-                        showToast('背景已更新');
+                        saveData(); applyBackground(); showToast('背景已更新');
                     };
                     reader.readAsDataURL(file);
                 }
             });
-
             openPanel();
         }
 
         // ==================== 批量模式 ====================
-        function enterBatchMode() {
-            isBatchMode = true;
-            selectedNodes.clear();
-            selectionHint.classList.add('show');
-            $('batchBtn').classList.add('active');
-            showToast('批量选择模式：点击机位进行选择');
-        }
-
-        function exitBatchMode() {
-            isBatchMode = false;
-            selectedNodes.clear();
-            selectionHint.classList.remove('show');
-            $('batchBtn').classList.remove('active');
-            renderCanvas();
-        }
-
-        function toggleBatchMode() {
-            if (isBatchMode) {
-                if (selectedNodes.size > 0) openBatchPanel();
-                else exitBatchMode();
-            } else {
-                enterBatchMode();
-            }
-        }
-
-        // ==================== 自定义输入弹窗 ====================
-        function showInputModal(title, placeholder, defaultValue = '') {
-            return new Promise((resolve) => {
-                const overlay = $('inputModalOverlay');
-                const titleEl = $('inputModalTitle');
-                const input = $('inputModalInput');
-                const confirmBtn = $('inputModalConfirm');
-                const cancelBtn = $('inputModalCancel');
-
-                titleEl.textContent = title;
-                input.placeholder = placeholder;
-                input.value = defaultValue;
-
-                const closeModal = (value) => {
-                    overlay.classList.remove('open');
-                    resolve(value);
-                };
-
-                const handleConfirm = () => {
-                    const value = input.value.trim();
-                    closeModal(value || null);
-                };
-
-                const handleCancel = () => {
-                    closeModal(null);
-                };
-
-                const handleKeydown = (e) => {
-                    if (e.key === 'Enter') {
-                        handleConfirm();
-                    } else if (e.key === 'Escape') {
-                        handleCancel();
-                    }
-                };
-
-                confirmBtn.onclick = handleConfirm;
-                cancelBtn.onclick = handleCancel;
-                input.onkeydown = handleKeydown;
-
-                overlay.classList.add('open');
-                input.focus();
-                input.select();
-            });
-        }
+        function enterBatchMode() { isBatchMode = true; selectedNodes.clear(); selectionHint.classList.add('show'); $('batchBtn').classList.add('active'); showToast('批量选择模式：点击机位进行选择'); }
+        function exitBatchMode() { isBatchMode = false; selectedNodes.clear(); selectionHint.classList.remove('show'); $('batchBtn').classList.remove('active'); renderCanvas(); }
+        function toggleBatchMode() { if (isBatchMode) { if (selectedNodes.size > 0) openBatchPanel(); else exitBatchMode(); } else enterBatchMode(); }
 
         // ==================== 添加机位 ====================
         async function addComputer() {
             const store = activeStore();
-            if (!store) {
-                showToast('请先选择一个门店');
-                return;
-            }
-
+            if (!store) { showToast('请先选择一个门店'); return; }
             const id = await showInputModal('输入机位编号', '如：C1', 'C1');
             if (!id) return;
-
-            if (store.computers.find(c => c.id === id)) {
-                showToast('该编号已存在');
-                return;
-            }
-
-            const newComp = {
-                id, name: id,
-                x: 100 + Math.random() * 200,
-                y: 100 + Math.random() * 200,
-                icon: '🖥️',
-                hardware: { cpu: '', gpu: '', ram: '', storage: '', monitor: '', mouse: '', keyboard: '', headset: '' }
-            };
-
-            store.computers.push(newComp);
-            saveData();
-            renderCanvas();
-            showToast(`已添加机位 ${id}`);
-            openEditPanel(newComp);
-        }
-
-        // ==================== 确认弹窗 ====================
-        function showConfirmModal(message) {
-            return new Promise((resolve) => {
-                const overlay = document.createElement('div');
-                overlay.className = 'input-modal-overlay open';
-                overlay.innerHTML = `
-                    <div class="input-modal">
-                        <div class="input-modal-title">${message}</div>
-                        <div class="input-modal-buttons">
-                            <button class="input-modal-btn cancel" id="confirmCancel">取消</button>
-                            <button class="input-modal-btn confirm" id="confirmOk">确定</button>
-                        </div>
-                    </div>
-                `;
-                document.body.appendChild(overlay);
-
-                overlay.querySelector('#confirmCancel').onclick = () => {
-                    document.body.removeChild(overlay);
-                    resolve(false);
-                };
-                overlay.querySelector('#confirmOk').onclick = () => {
-                    document.body.removeChild(overlay);
-                    resolve(true);
-                };
-                overlay.onclick = (e) => {
-                    if (e.target === overlay) {
-                        document.body.removeChild(overlay);
-                        resolve(false);
-                    }
-                };
-            });
+            if (store.computers.find(c => c.id === id)) { showToast('该编号已存在'); return; }
+            const nc = { id, name: id, x: 100 + Math.random() * 200, y: 100 + Math.random() * 200, icon: '🖥️', hardware: { cpu:'', gpu:'', ram:'', motherboard:'', power:'', nic:'', cooler:'', monitor:'', mouse:'', keyboard:'', headset:'' } };
+            store.computers.push(nc); saveData(); renderCanvas(); showToast(`已添加机位 ${id}`); openEditPanel(nc);
         }
 
         // ==================== 重置 ====================
         async function resetLayout() {
-            const confirmed = await showConfirmModal('确定重置当前门店的所有数据？');
-            if (!confirmed) return;
-
-            const store = activeStore();
-            if (!store) {
-                showToast('门店数据异常');
-                return;
-            }
+            const ok = await showConfirmModal('确定重置当前门店的所有数据？');
+            if (!ok) return;
+            const store = activeStore(); if (!store) return;
             store.computers = generateDefaultComputers();
             store.settings = { background: { type: 'color', value: '#0d1117' } };
-            saveData();
-            applyBackground();
-            renderCanvas();
-            showToast('已重置当前门店');
+            saveData(); applyBackground(); renderCanvas(); showToast('已重置当前门店');
         }
 
-        // ==================== 面板 ====================
-        function openPanel() {
-            sidePanel.classList.add('open');
-            panelOverlay.classList.add('open');
+        // ==================== 弹窗 ====================
+        function openPanel() { sidePanel.classList.add('open'); panelOverlay.classList.add('open'); }
+        function closePanel() { sidePanel.classList.remove('open'); panelOverlay.classList.remove('open'); selectedNode = null; }
+
+        function showInputModal(title, placeholder, defaultValue = '') {
+            return new Promise((resolve) => {
+                const overlay = $('inputModalOverlay');
+                $('inputModalTitle').textContent = title;
+                const input = $('inputModalInput');
+                input.placeholder = placeholder; input.value = defaultValue;
+                const done = (v) => { overlay.classList.remove('open'); resolve(v); };
+                $('inputModalConfirm').onclick = () => done(input.value.trim() || null);
+                $('inputModalCancel').onclick = () => done(null);
+                input.onkeydown = (e) => { if (e.key === 'Enter') done(input.value.trim() || null); if (e.key === 'Escape') done(null); };
+                overlay.classList.add('open'); input.focus(); input.select();
+            });
         }
 
-        function closePanel() {
-            sidePanel.classList.remove('open');
-            panelOverlay.classList.remove('open');
-            selectedNode = null;
+        function showConfirmModal(message) {
+            return new Promise((resolve) => {
+                const overlay = document.createElement('div');
+                overlay.className = 'input-modal-overlay open';
+                overlay.innerHTML = `<div class="input-modal"><div class="input-modal-title">${message}</div><div class="input-modal-buttons"><button class="input-modal-btn cancel">取消</button><button class="input-modal-btn confirm">确定</button></div></div>`;
+                document.body.appendChild(overlay);
+                overlay.querySelector('.input-modal-btn.cancel').onclick = () => { document.body.removeChild(overlay); resolve(false); };
+                overlay.querySelector('.input-modal-btn.confirm').onclick = () => { document.body.removeChild(overlay); resolve(true); };
+                overlay.onclick = (e) => { if (e.target === overlay) { document.body.removeChild(overlay); resolve(false); } };
+            });
         }
 
-        // ==================== Toast ====================
-        function showToast(msg) {
-            toast.textContent = msg;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2000);
-        }
+        function showToast(msg) { toast.textContent = msg; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2000); }
 
-        // ==================== 事件绑定 ====================
+        // ==================== 事件 ====================
         function bindEvents() {
             $('settingsBtn').addEventListener('click', openBackgroundPanel);
             $('addBtn').addEventListener('click', addComputer);
             $('resetBtn').addEventListener('click', resetLayout);
             $('batchBtn').addEventListener('click', toggleBatchMode);
+            $('exportBtn').addEventListener('click', exportToCSV);
+            $('syncBtn').addEventListener('click', async () => {
+                await syncFromCloud();
+                renderStoreSwitcher();
+                renderCanvas();
+                applyBackground();
+                updateHeaderTitle();
+            });
             $('panelClose').addEventListener('click', closePanel);
             panelOverlay.addEventListener('click', closePanel);
-
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    if (isBatchMode) exitBatchMode();
-                    else closePanel();
-                }
-            });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { if (isBatchMode) exitBatchMode(); else closePanel(); } });
         }
 
         // ==================== 启动 ====================
-        function init() {
-            loadData();
+        async function init() {
+            await loadData();
             renderStoreSwitcher();
             renderCanvas();
             applyBackground();
             updateHeaderTitle();
             bindEvents();
         }
-
         init();
     </script>
 </body>
