@@ -612,144 +612,12 @@
 
         // ==================== 数据 ====================
         async function loadData() {
-            // 首先加载本地数据
-            const saved = localStorage.getItem('netbar_app_v2');
-            if (saved) {
-                appData = JSON.parse(saved);
-                if (!appData.stores || appData.stores.length === 0) migrateOldData();
-            } else {
-                const oc = localStorage.getItem('netbar_computers');
-                const os = localStorage.getItem('netbar_settings');
-                if (oc || os) migrateOldData();
-                else createDefaultData();
-            }
-            
-            // 然后尝试从云端同步并合并数据
-            await syncFromCloudMerge();
-        }
-
-        // 智能合并云端和本地数据（以最新修改为准）
-        async function syncFromCloudMerge() {
-            try {
-                showToast('正在从云端同步...');
-                const response = await fetch(`${JSONBIN_BIN_URL}/latest`, {
-                    method: 'GET',
-                    headers: {
-                        'X-Master-Key': JSONBIN_MASTER_KEY,
-                        'X-Bin-Meta': 'false'
-                    }
-                });
-                if (!response.ok) {
-                    showToast('使用本地数据');
-                    return;
-                }
-                
-                const text = await response.text();
-                let data = null;
-                try {
-                    data = JSON.parse(text);
-                } catch(e) {
-                    console.error('JSON解析失败:', e);
-                    showToast('云端数据格式错误，使用本地数据');
-                    return;
-                }
-
-                // JSONBin 响应格式可能是直接返回数据，也可能包裹在 record 中
-                let cloudData = null;
-                if (data && data.stores) {
-                    cloudData = data;
-                } else if (data && data.record && data.record.stores) {
-                    cloudData = data.record;
-                }
-
-                if (!cloudData || !cloudData.stores) {
-                    showToast('云端暂无数据，使用本地数据');
-                    return;
-                }
-
-                // 判断哪边数据更新：比较 lastSyncTime
-                const localTime = appData.lastSyncTime || 0;
-                const cloudTime = cloudData.lastSyncTime || 0;
-                const localIsNewer = localTime > cloudTime;
-                
-                if (localIsNewer) {
-                    showToast('本地数据较新，保留本地修改');
-                    return;  // 本地数据更新，不覆盖
-                }
-                
-                // 云端数据更新或相同，使用云端数据
-                const localStores = appData.stores || [];
-                const cloudStores = cloudData.stores || [];
-                const mergedStores = [];
-                
-                // 处理所有云端门店
-                cloudStores.forEach(cloudStore => {
-                    const localStore = localStores.find(s => s.id === cloudStore.id);
-                    if (localStore) {
-                        // 同名门店存在，合并机器数据
-                        const mergedStore = { ...cloudStore };
-                        const mergedComputers = [];
-                        
-                        // 获取所有机器ID
-                        const allIds = new Set([
-                            ...cloudStore.computers.map(c => c.id),
-                            ...localStore.computers.map(c => c.id)
-                        ]);
-                        
-                        allIds.forEach(id => {
-                            const cloudComp = cloudStore.computers.find(c => c.id === id);
-                            const localComp = localStore.computers.find(c => c.id === id);
-                            
-                            if (cloudComp && localComp) {
-                                // 两边都有，优先使用云端数据
-                                mergedComputers.push({
-                                    ...cloudComp,
-                                    name: cloudComp.name || localComp.name,
-                                    icon: cloudComp.icon || localComp.icon,
-                                    hardware: { ...localComp.hardware, ...cloudComp.hardware }
-                                });
-                            } else if (localComp) {
-                                mergedComputers.push(localComp);
-                            } else {
-                                mergedComputers.push(cloudComp);
-                            }
-                        });
-                        
-                        mergedStore.computers = mergedComputers;
-                        mergedStores.push(mergedStore);
-                    } else {
-                        // 云端独有的门店
-                        mergedStores.push(cloudStore);
-                    }
-                });
-                
-                // 添加本地独有的门店
-                localStores.forEach(localStore => {
-                    if (!cloudStores.find(s => s.id === localStore.id)) {
-                        mergedStores.push(localStore);
-                    }
-                });
-                
-                appData = {
-                    stores: mergedStores,
-                    activeStoreId: appData.activeStoreId || cloudData.activeStoreId
-                };
-                
-                // 确保当前门店有效
-                if (!appData.stores.find(s => s.id === appData.activeStoreId)) {
-                    appData.activeStoreId = appData.stores[0]?.id;
-                }
-                
-                saveDataLocal();
-                applyBackground();
-                renderCanvas();
-                renderStoreSwitcher();
-                updateHeaderTitle();
-                showToast('云端数据同步完成！');
-                
-            } catch (e) {
-                console.error('云端同步失败:', e);
-                showToast('云端同步失败，使用本地数据');
+            // 从云端获取数据，失败则报错
+            const cloudOk = await syncFromCloud();
+            if (!cloudOk) {
+                showToast('云端数据获取失败，请检查网络后刷新页面');
+                // 显示错误状态，不加载本地数据
+                appData = { stores: [], activeStoreId: null };
             }
         }
 
@@ -1444,11 +1312,7 @@
                 e.target.value = ''; // 清空以便重复选择同一文件
             });
             $('syncBtn').addEventListener('click', async () => {
-                await syncFromCloud();
-                renderStoreSwitcher();
-                renderCanvas();
-                applyBackground();
-                updateHeaderTitle();
+                await syncToCloud();
             });
             $('panelClose').addEventListener('click', closePanel);
             panelOverlay.addEventListener('click', closePanel);
