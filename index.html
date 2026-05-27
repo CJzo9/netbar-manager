@@ -476,6 +476,7 @@
         let isBatchMode = false;
         let selectedNodes = new Set();
         let isSyncing = false;
+        let hasDragged = false;  // 标记是否发生了拖动
 
         const $ = id => document.getElementById(id);
         const canvas = $('canvas');
@@ -550,6 +551,8 @@
             if (isSyncing) return;
             isSyncing = true;
             try {
+                // 上传前记录时间戳
+                appData.lastSyncTime = Date.now();
                 const response = await fetch(JSONBIN_BIN_URL, {
                     method: 'PUT',
                     headers: {
@@ -633,7 +636,17 @@
                     return;
                 }
 
-                // 智能合并：合并两个数据源，保留所有门店和机器
+                // 判断哪边数据更新：比较 lastSyncTime
+                const localTime = appData.lastSyncTime || 0;
+                const cloudTime = cloudData.lastSyncTime || 0;
+                const localIsNewer = localTime > cloudTime;
+                
+                if (localIsNewer) {
+                    showToast('本地数据较新，保留本地修改');
+                    return;  // 本地数据更新，不覆盖
+                }
+                
+                // 云端数据更新或相同，使用云端数据
                 const localStores = appData.stores || [];
                 const cloudStores = cloudData.stores || [];
                 const mergedStores = [];
@@ -657,19 +670,12 @@
                             const localComp = localStore.computers.find(c => c.id === id);
                             
                             if (cloudComp && localComp) {
-                                // 两边都有，比较位置信息，使用最新的
-                                // 如果本地位置不为0且云端为0，使用本地
-                                // 如果云端位置不为0，优先使用云端（假设云端是"权威"的）
-                                // 但如果本地位置明显不同，保留本地（用户刚拖动的）
-                                const useLocalPos = localComp.x !== 0 && localComp.y !== 0 && 
-                                                   (cloudComp.x === 0 && cloudComp.y === 0);
+                                // 两边都有，优先使用云端数据
                                 mergedComputers.push({
                                     ...cloudComp,
-                                    x: useLocalPos ? localComp.x : cloudComp.x,
-                                    y: useLocalPos ? localComp.y : cloudComp.y,
-                                    name: localComp.name || cloudComp.name,
-                                    icon: localComp.icon || cloudComp.icon,
-                                    hardware: { ...cloudComp.hardware, ...localComp.hardware }
+                                    name: cloudComp.name || localComp.name,
+                                    icon: cloudComp.icon || localComp.icon,
+                                    hardware: { ...localComp.hardware, ...cloudComp.hardware }
                                 });
                             } else if (localComp) {
                                 mergedComputers.push(localComp);
@@ -899,10 +905,9 @@
             node.addEventListener('mousedown', onDragStart);
             node.addEventListener('touchstart', onDragStart, { passive: false });
             node.addEventListener('click', () => {
-                if (!draggedNode) {
-                    if (isBatchMode) toggleSelection(comp.id);
-                    else openEditPanel(comp);
-                }
+                if (hasDragged) return;  // 如果发生了拖动，不打开编辑栏
+                if (isBatchMode) toggleSelection(comp.id);
+                else openEditPanel(comp);
             });
             return node;
         }
@@ -911,6 +916,7 @@
         function onDragStart(e) {
             if (isBatchMode) return;
             e.preventDefault();
+            hasDragged = false;  // 重置拖动标志
             const node = e.currentTarget; draggedNode = node; node.classList.add('dragging');
             const rect = node.getBoundingClientRect();
             const cx = e.touches ? e.touches[0].clientX : e.clientX;
@@ -924,6 +930,7 @@
 
         function onDragMove(e) {
             if (!draggedNode) return; e.preventDefault();
+            hasDragged = true;  // 标记发生了拖动
             const cr = canvas.getBoundingClientRect();
             const cx = e.touches ? e.touches[0].clientX : e.clientX;
             const cy = e.touches ? e.touches[0].clientY : e.clientY;
