@@ -376,13 +376,25 @@
         .lock-error { color: var(--accent-red); font-size: 12px; margin-top: 12px; height: 18px; }
 
         @media (max-width: 768px) {
-            .header { padding: 0 10px; height: 44px; }
+            .header { padding: 0 8px; height: 44px; }
             .logo-title { display: none; }
-            .header-btn span { display: none; }
+            .header-actions { gap: 4px; }
+            .header-btn { padding: 6px 8px; font-size: 11px; }
+            .header-btn span:first-child { font-size: 14px; }
+            .header-btn span:last-child { font-size: 10px; }
             .side-panel { width: 100%; right: -100%; }
             .form-grid { grid-template-columns: 1fr; }
-            .store-switcher { max-width: 200px; }
-            .store-tab { max-width: 60px; font-size: 11px; padding: 4px 6px; }
+            .store-switcher { max-width: 150px; overflow-x: auto; }
+            .store-tab { max-width: 50px; font-size: 10px; padding: 4px 4px; }
+            .monitor { width: 36px; }
+            .monitor-screen { width: 36px; height: 26px; }
+            .monitor-id { font-size: 14px; }
+            .canvas-container { top: 44px; }
+        }
+        @media (max-width: 480px) {
+            .header-btn { padding: 4px 6px; }
+            .header-btn span:last-child { display: none; }
+            .header-btn span:first-child { font-size: 16px; }
         }
     </style>
 </head>
@@ -867,7 +879,11 @@
             const cx = e.touches ? e.touches[0].clientX : e.clientX;
             const cy = e.touches ? e.touches[0].clientY : e.clientY;
             let nx = cx - cr.left - dragOffset.x, ny = cy - cr.top - dragOffset.y;
-            nx = Math.max(0, Math.min(nx, cr.width - 60)); ny = Math.max(0, Math.min(ny, cr.height - 60));
+            // 手机端允许拖动到更远的位置
+            const nodeWidth = window.innerWidth <= 768 ? 36 : 44;
+            const nodeHeight = window.innerWidth <= 768 ? 26 : 32;
+            nx = Math.max(-20, Math.min(nx, cr.width - nodeWidth + 20)); 
+            ny = Math.max(-20, Math.min(ny, cr.height - nodeHeight + 20));
             draggedNode.style.left = nx + 'px'; draggedNode.style.top = ny + 'px';
         }
 
